@@ -1,43 +1,79 @@
 import React from 'react'
-import {StyleSheet, Image, View} from 'react-native'
+import {StyleSheet, Image, View, SafeAreaView, TouchableOpacity} from 'react-native'
 
-function Header() {
+
+function Header(props) {
+
+  function onPressMenu (){
+    props.navigatePage(1);
+  }
+  function onPressUserSettings (){
+    props.navigatePage(3);
+  }
+  function onPressHome (){
+    props.navigatePage(0);
+  }
+  function onPressAlerts (){
+    props.navigatePage(-1);
+  }
+
+
   return (
-    <View style={styles.HeaderContainer}>
-        <Image source={require('../assets/MenuIcon.png')}>
-          </Image>
-        <Image source={require('../assets/DesignIcon.png')}>
-         </Image>
-        <View style={styles.UserContainer}>
-            <Image source={{
-              width: 30,
-              height: 30,
-              uri : '../assets/UserIcon.png'}}>
-            </Image>
-            <Image source={{
-              width: 30,
-              height: 30,
-              uri : '../assets/NotifIcon.png'}}>
-            </Image>
+    <SafeAreaView style={styles.HeaderContainer}>
+        <View style={styles.LeftMenuContainer}>
+          <TouchableOpacity onPress={onPressMenu}>
+            <Image style={styles.Image1} source={require('../assets/MenuIcon.png')}/>
+          </TouchableOpacity>
+          <TouchableOpacity onPress={onPressHome}>
+            <Image style={styles.Image2} source={require('../assets/DesignIcon.png')}/>
+          </TouchableOpacity>
         </View>
-        
-    </View>
+        <View style={styles.MiddleMenuBlock}></View>
+        <View style={styles.RightMenuContainer}>
+          <TouchableOpacity onPress={onPressUserSettings}>
+            <Image style={styles.Image1} source={require('../assets/UserIcon.png')}/>
+          </TouchableOpacity>
+          <TouchableOpacity onPress={onPressAlerts}>
+            <Image style={styles.Image1} source={require('../assets/NotifIcon.png')}/>
+          </TouchableOpacity>
+        </View>
+    </SafeAreaView>
   )
 }
 
 const styles = StyleSheet.create({
     HeaderContainer: {
-      backgroundColor: '#5D66A2',
+      paddingTop: 30,
+      backgroundColor: '#535354',
+      justifyContent: "center",
+      alignItems:"center",
       flexDirection: 'row',
-      height: '25%',
+      height: '8%',
       width: "100%",
     },
-    UserContainer: {
-      height: '100%',
-      width: "33%",
+    LeftMenuContainer: {
+      flexDirection: 'row',
+      justifyContent: 'space-between',
+      width: "60%",
+    },
+    MiddleMenuBlock:{
+      width:'3%',
+    },
+    RightMenuContainer: {
+      flexDirection: 'row',
+      justifyContent: 'space-around',
+      
+      width: "30%",
       hover: '#6923dc',
     },
-    
+    Image1: {
+      height:30,
+      width:30,
+    },
+    Image2: {
+      height:35,
+      width:115,
+    },
     
   });
 

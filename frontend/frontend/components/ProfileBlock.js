@@ -10,19 +10,14 @@ const AddedDate = "";
     <View>
        <View style ={styles.ProfileBox}>
       
-      <Image source={{
-            width: 65,
-            height: 60,
-            uri : 'https://upload.wikimedia.org/wikipedia/commons/thumb/2/2c/Default_pfp.svg/1200px-Default_pfp.svg.png'}}>
-      </Image>
-      <Text>
-          {Name}
-      </Text>
-      <Text>
-          Date Added: {AddedDate}
-      </Text>
-
-    </View>
+        <Image source={{
+              width: 65,
+              height: 60,
+              uri : 'https://upload.wikimedia.org/wikipedia/commons/thumb/2/2c/Default_pfp.svg/1200px-Default_pfp.svg.png'}}>
+        </Image>
+        <Text> {Name} </Text>
+        <Text> Date Added: {AddedDate} </Text>
+      </View>
     </View>
   )
 }
@@ -37,6 +32,13 @@ const styles = StyleSheet.create({
         width: "100%",
         borderColor: '#787878',
         borderWidth: 1,
+        
       },
+    Photo: {
+      width: 33, 
+      justifyContent:"center"
+
+
+    },
 
 })
