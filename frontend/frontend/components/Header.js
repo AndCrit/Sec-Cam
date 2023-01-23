@@ -20,6 +20,7 @@ function Header(props) {
 
   return (
     <SafeAreaView style={styles.HeaderContainer}>
+
         <View style={styles.LeftMenuContainer}>
           <TouchableOpacity onPress={onPressMenu}>
             <Image style={styles.Image1} source={require('../assets/MenuIcon.png')}/>
@@ -28,7 +29,9 @@ function Header(props) {
             <Image style={styles.Image2} source={require('../assets/DesignIcon.png')}/>
           </TouchableOpacity>
         </View>
-        <View style={styles.MiddleMenuBlock}></View>
+
+        <View style={styles.MiddleMenuBlock}/>
+
         <View style={styles.RightMenuContainer}>
           <TouchableOpacity onPress={onPressUserSettings}>
             <Image style={styles.Image1} source={require('../assets/UserIcon.png')}/>
@@ -37,6 +40,7 @@ function Header(props) {
             <Image style={styles.Image1} source={require('../assets/NotifIcon.png')}/>
           </TouchableOpacity>
         </View>
+        
     </SafeAreaView>
   )
 }
@@ -54,6 +58,7 @@ const styles = StyleSheet.create({
     LeftMenuContainer: {
       flexDirection: 'row',
       justifyContent: 'space-between',
+      alignItems: 'center',
       width: "60%",
     },
     MiddleMenuBlock:{
