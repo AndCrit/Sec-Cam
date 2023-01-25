@@ -5,8 +5,10 @@ const SettingsBlock = (props) => {
     
   return (
     <View style={styles.SettingsBox}>
+      
       <Text style= {[styles.text, styles.bold_text]}> {props.settingName} </Text>
       <Text style={styles.text}> {props.settingValue} </Text>
+      
     </View>
   )
   
@@ -20,10 +22,8 @@ const styles = StyleSheet.create({
         backgroundColor: '#242524',
         height: '5%',
         width: "100%",
-        borderColor: '#787878',
-        borderWidth: 1,
         justifyContent: "space-around",
-        textAlignVertical: "bottom",
+        alignItems: "center",
       },
       text:{
         color:'white',
@@ -35,5 +35,10 @@ const styles = StyleSheet.create({
       },
       big_text:{
         fontSize: 20,
+      },
+      line: {
+        height:1,
+        width: '80%',
+        backgroundColor:'#535354',
       },
     });

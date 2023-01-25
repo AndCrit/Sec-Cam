@@ -4,10 +4,15 @@ import EventAlert from '../components/EventAlert'
 import RoundedStamp from '../components/RoundedStamp';
 
 function Home(props) {
-var greeting; 
+var greeting;
 
+let TimeRoundedStampValue = {descriptor:"Currently 00:00 pm", imageIcon:'sun'}
+let CameraRoundedStampValue = {descriptor:"Camera Status", imageIcon:'on'}
 function onPressDatabase (){
   props.navigatePage(1);
+}
+function listEvents (){
+  //List the events here
 }
   return (
     <View style={styles.overture_container}>
@@ -16,18 +21,20 @@ function onPressDatabase (){
             <Text style={[styles.text, styles.bold_text, styles.big_text]}> Your Briefing {greeting} </Text>
             <Text style={styles.text}> Tuesday, July 20</Text>
           </View>
-          <RoundedStamp descriptor="00:00pm"/>
+          <RoundedStamp {...TimeRoundedStampValue}/>
         </View>
         
         <View style={styles.body}>
           <Text style={[styles.text, styles.big_text]}> Today's Alerts </Text>
-          <RoundedStamp descriptor="Camera      Status"/>
+          <RoundedStamp {...CameraRoundedStampValue}/>
         </View>
         <View style={styles.break}/>
-        <EventAlert/>
-        <EventAlert/>
-        <EventAlert/>
-        <Button onPress={onPressDatabase} title="View Saved Database" color="#787878" accessibilityLabel="Databases"/>
+        <View style={styles.eventAlerts}>
+          <EventAlert EventDescription = "RemovePerson"/>
+          <EventAlert EventDescription = "SecAlert"/>
+          <EventAlert EventDescription = "RecogPerson"/>
+        </View>
+        <Button  onPress={onPressDatabase} title="View Saved Database" color="#787878" accessibilityLabel="Databases"/>
     </View>
   )
 }
@@ -57,6 +64,10 @@ const styles = StyleSheet.create({
   },
   big_text:{
     fontSize: 20,
+  },
+  eventAlerts: {
+    justifyContent:'center',
+    alignItems: 'center',
   },
 });
 
