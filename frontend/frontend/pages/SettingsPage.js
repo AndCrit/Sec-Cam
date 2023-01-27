@@ -16,6 +16,8 @@ export default function SettingsPage(props){
       </View>
       <View style={styles.overview_container}>
         <SettingsBlock {...value}/>
+        <SettingsBlock {...value}/>
+        <SettingsBlock {...value}/>
 
         
         {/** TODO: Figure out some mapping for the settings */}
@@ -34,6 +36,7 @@ const styles = StyleSheet.create({
     height: '12%',
     width: '100%',
     justifyContent: "center",
+    alignContent: 'center',
     alignItems:"center",
     
   },

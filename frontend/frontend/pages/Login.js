@@ -7,7 +7,7 @@ function Login(props) {
     const image = {uri: 'https://cdn.pixabay.com/photo/2017/01/28/02/24/japan-2014618_960_720.jpg'};
 
     function onPressLogin (){
-      alert('Sign In Check pressed');
+      //alert('Sign In Check pressed');
       props.navigatePage(0);
     }
 

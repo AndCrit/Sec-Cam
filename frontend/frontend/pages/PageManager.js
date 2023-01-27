@@ -7,6 +7,7 @@ import Header from '../components/Header'
 import SavedDatabase from './SavedDatabase'
 import SettingsPage from './SettingsPage'
 import Upload from './Upload'
+import NotificationPage from './NotificationPage'
 
 
 export default function Main() {
@@ -56,6 +57,14 @@ export default function Main() {
             <>
             <Header navigatePage={(num) => navigatePage(num)} />
             <SettingsPage navigatePage={(num) => navigatePage(num)} />
+            </>
+        )
+    }
+    else if (page == 4){
+        return(
+            <>
+            <Header navigatePage={(num) => navigatePage(num)} />
+            <NotificationPage navigatePage={(num) => navigatePage(num)} />
             </>
         )
     }
