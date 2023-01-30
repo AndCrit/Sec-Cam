@@ -10,8 +10,11 @@ export default function NotificationPage(props) {
       <View style={styles.overture_container}>
           <Text style={[styles.text, styles.big_text, styles.bold_text ]}> Notifications </Text>
             <View style={styles.text_input}>
-            
-        </View>
+              <TextInput editable maxLength={20}  onChangeQuery={text => onChangeQuery(text)} style={styles.text_input} > Search for notif</TextInput>
+              <TouchableOpacity>
+                <Image style={styles.icon} source={require('../assets/Search.png')}/>
+              </TouchableOpacity>
+            </View>
         <NotificationBlock/>
         <NotificationBlock/>
       </View>
@@ -24,6 +27,8 @@ export default function NotificationPage(props) {
       height: '100%',
       alignItems: 'center',
     },
+    
+
     text:{
       color:'white',
       fontSize: 16,
@@ -44,10 +49,12 @@ export default function NotificationPage(props) {
     text_input_icon:{
       justifyContent:'flex-end',
     },
+
     icon:{
       height: 30,
       width:30,
     },
+    
 
     bold_text:{
       fontWeight:"700",

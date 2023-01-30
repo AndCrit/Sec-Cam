@@ -3,7 +3,10 @@ import React from 'react'
 
 const NotificationBlock = (props) => {
 
+  var name = props.ProfileName;
+  var currentdate = "Tuesday, July 29th";
   return (
+
     <View style ={styles.NotifBox}>
        <View style={styles.Photo}>
           <Image source={{
@@ -11,6 +14,13 @@ const NotificationBlock = (props) => {
                 height: "100%",
                 uri : 'https://upload.wikimedia.org/wikipedia/commons/thumb/2/2c/Default_pfp.svg/1200px-Default_pfp.svg.png'}}>
           </Image>
+          <View style={styles.Text_Container}> 
+            <Text style={styles.bold_text}>{currentdate}</Text>
+            <TouchableOpacity onPress={null}>
+              <Image style={styles.Image1} source={require('../assets/3_Dot_Menu_Icon.png')}/>
+            </TouchableOpacity>
+          </View>
+          <Text>  Profile Name: {name} </Text>
         </View>
     </View>
   )
@@ -34,13 +44,16 @@ const styles = StyleSheet.create({
       alignContent: "flex-start",
       alignItems: "flex-start",
       backgroundColor: '#535354',
-      height: '50%',
+      height: 300,
       width: "100%",
       borderColor: '#787878',
       borderWidth: 2,
       borderRadius: 25,
     },
-    
+    Text_Container:{
+      flexDirection: "row",
+
+    },
     Photo: {
       flexDirection: "column",
       height: 200,
