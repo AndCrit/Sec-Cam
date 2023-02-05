@@ -1,12 +1,12 @@
 import { StyleSheet, Text, View, Image, TouchableOpacity } from 'react-native'
 import React from 'react'
 
-const ProfileBlock = () => {
+const ProfileBlock = (props) => {
 
-let Name = "Full Name of the Profile";
-let AddedDate = "";
-let PhoneNumber = "416-888-8888"
-let AdditionalInfo = "A couple sentences about this person"
+let Name = props.ProfileName;
+let AddedDate = props.ProfileAddedDate;
+let PhoneNumber = props.PhoneNumber;
+let AdditionalInfo = props.AdditionalInfo;
 
   return (
     <View style ={styles.EventBox}>

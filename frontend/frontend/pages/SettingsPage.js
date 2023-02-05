@@ -1,9 +1,35 @@
-import { StyleSheet, Text, View, SafeAreaView } from 'react-native'
+import { StyleSheet, Text, View, SafeAreaView, ScrollView } from 'react-native'
 import React from 'react'
 import SettingsBlock from '../components/SettingsBlock';
 
 export default function SettingsPage(props){
   const value = {settingName: "Account Name", settingValue:"Braveler"}
+  const[Settings, onChangeSetting] = React.useState 
+    ([ 
+        {"key":1, "settingName": "Account Name", "settingValue": "Braveler"},
+        {"key":2, "settingName": "Camera", "settingValue": "Friday, Aug 12th"},
+        {"key":3, "settingName": "Age", "settingValue": "22"},
+        {"key":4, "settingName": "Camera Location", "settingValue": "Laconia"},
+        {"key":5, "settingName": "Camera Serial Number", "settingValue": "#4321212312"},
+        
+      ]);
+      
+      function SettingsList(){
+      
+        return (
+          <SafeAreaView>
+          <ScrollView  >
+          {Settings.map((setting) =>{
+            return(
+              <SettingsBlock {...setting}/>
+            );
+          })}
+        </ScrollView>
+        </SafeAreaView>
+        );
+      }
+
+
   return (
     <>
       <View style={styles.overture_container}>
@@ -15,9 +41,8 @@ export default function SettingsPage(props){
         </View>
       </View>
       <View style={styles.overview_container}>
-        <SettingsBlock {...value}/>
-        <SettingsBlock {...value}/>
-        <SettingsBlock {...value}/>
+        <SettingsList/>
+        
 
         
         {/** TODO: Figure out some mapping for the settings */}

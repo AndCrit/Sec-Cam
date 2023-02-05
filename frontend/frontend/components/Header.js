@@ -14,7 +14,7 @@ function Header(props) {
     props.navigatePage(0);
   }
   function onPressAlerts (){
-    props.navigatePage(-1);
+    props.navigatePage(4);
   }
 
 

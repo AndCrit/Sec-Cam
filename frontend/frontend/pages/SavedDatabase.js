@@ -1,10 +1,37 @@
-import {StyleSheet, Text, TextInput, View, Image, TouchableOpacity } from 'react-native'
+import {StyleSheet, Text, TextInput, View, Image, TouchableOpacity, SafeAreaView, ScrollView } from 'react-native'
 import React, { Component } from 'react'
 import ProfileBlock from '../components/ProfileBlock'
 
 export default function SavedDatabase(props) {
 
     const[query, onChangeQuery] = React.useState('Useless Multiline Placeholder');
+
+    const[profiles, onChangeProfile] = React.useState 
+    ([ 
+        {"key":1, "ProfileName": "Bob", "ProfileAddedDate": "Tuesday, July 29th", "AdditionalInfo":"5:30pm", "PhoneNumber": "416-123-1111"},
+        {"key":2, "ProfileName": "Bill", "ProfileAddedDate": "Friday, Aug 12th", "AdditionalInfo":"7:30pm", "PhoneNumber": "416-123-1111"},
+        {"key":3, "ProfileName": "Bob2", "ProfileAddedDate": "Tuesday, July 29th", "AdditionalInfo":"5:30pm", "PhoneNumber": "416-123-1111"},
+        {"key":4, "ProfileName": "Bo", "ProfileAddedDate": "Tuesday, July 29th", "AdditionalInfo":"5:30pm", "PhoneNumber": "416-123-1111"},
+        {"key":5, "ProfileName": "Bin", "ProfileAddedDate": "Friday, Aug 12th", "AdditionalInfo":"7:30pm", "PhoneNumber": "416-123-1111"},
+        {"key":6, "ProfileName": "Burp", "ProfileAddedDate": "Tuesday, July 29th", "AdditionalInfo":"5:30pm", "PhoneNumber": "416-123-1111"},
+        
+      ]);
+
+      function ProfileList(){
+      
+        return (
+          <SafeAreaView>
+          <ScrollView style={styles.scroll_list} vertical={true}>
+          {profiles.map((profile) =>{
+            return(
+              <ProfileBlock {...profile}/>
+            );
+          })}
+        </ScrollView>
+        </SafeAreaView>
+        );
+      }
+
     return (
       <View style={styles.overture_container}>
           <Text style={[styles.text, styles.big_text, styles.bold_text ]}> Database</Text>
@@ -15,8 +42,7 @@ export default function SavedDatabase(props) {
             </TouchableOpacity>
         </View>
         <Text style={styles.text} >Saved Profiles</Text>
-        <ProfileBlock/>
-        <ProfileBlock/>
+        <ProfileList/>
       </View>
     )
   }
