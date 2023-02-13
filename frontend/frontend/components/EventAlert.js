@@ -4,20 +4,25 @@ import EventDescription from './EventDescription';
 
 const EventAlert = (props) => {
 
-  let relTime = '30m';
-  let action = {
-              SecAlert:"New Securtiy Alert \n" + "from front door camera at",
-              AddPerson:"New person added to the Image Database at",
-              RemovePerson:'A person has been removed from the Image Database at',
-              RecogPerson:"A friendly person has been recognized at"
-              };
-  const absTime = "5:30pm";
-  let cameraName = "";
-  const Eventinfo = {};
   
+  let action = {
+              SecAlert:"New Securtiy Alert \n" + "from camera ",
+              AddPerson:"New person added to the Image Database",
+              RemovePerson:'A person has been removed from the Image Database',
+              RecogPerson:"A friendly person has been recognized"
+              };
+
+  var name = props.notifName;
+  const Eventinfo = {};
+
+  function onDismissButtonPress(id){
+    props.DismissAlert(id)
+  }
+
   function DetermineEvent(){
-    Eventinfo.EventText = action[props.EventDescription];
-    Eventinfo.absTime = absTime;   
+    
+    Eventinfo.EventText = action[props.EventDesc];
+    Eventinfo.absTime = props.notifTime;   
     return <EventDescription {...Eventinfo}/>
   }
   function onPressCheck(){
@@ -43,7 +48,7 @@ const EventAlert = (props) => {
       <View style={styles.Profile_Buttons}>
         
         <View style={styles.Profile_Buttons_Top}>
-          <TouchableOpacity onPress={null}>
+          <TouchableOpacity onPress={() => onDismissButtonPress(props.id)}>
             <Image style={styles.IconContainer} source={require('../assets/Checkmark.png')}/>
           </TouchableOpacity>
         </View>

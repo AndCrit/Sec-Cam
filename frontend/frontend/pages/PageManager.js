@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-
+import {StyleSheet, View} from 'react-native'
 import Home from './Home'
 import Login from './Login'
 import LoadingPage from './LoadingPage'
@@ -11,7 +11,7 @@ import NotificationPage from './NotificationPage'
 
 
 export default function Main() {
-    const [page, currentPage] = useState(-1)
+    const [page, currentPage] = useState(2)
 
 
     function navigatePage(num) {
@@ -64,10 +64,28 @@ export default function Main() {
         return(
             <>
             <Header navigatePage={(num) => navigatePage(num)} />
+            <View style={styles.main_page} >
+                
             <NotificationPage navigatePage={(num) => navigatePage(num)} />
+            </View>
             </>
         )
     }
+    else if (page == 5){
+        return(
+            <>
+            <Upload navigatePage={(num) => navigatePage(num)} />
+            </>
+        )
+    }
+
     
 }
 
+const styles = StyleSheet.create({
+    main_page: {
+      
+      flexDirection: 'row',
+      width: '100%',
+    },
+})

@@ -1,5 +1,5 @@
 import React from 'react'
-import {StyleSheet, Text, Image, View, SafeAreaView, Button} from 'react-native'
+import {StyleSheet, Text, Image, View, SafeAreaView, Button, ScrollView} from 'react-native'
 import EventAlert from '../components/EventAlert'
 import RoundedStamp from '../components/RoundedStamp';
 
@@ -8,14 +8,47 @@ var greeting;
 
 let TimeRoundedStampValue = {descriptor:"Currently 00:00 pm", imageIcon:'sun'}
 let CameraRoundedStampValue = {descriptor:"Camera Status", imageIcon:'on'}
+
+const[TodaysEvents, setTodaysEvents] = React.useState 
+    ([ 
+        {"key":1, "notifName": "Bob", "notifDate": "Tuesday, July 29th", "notifTime":"5:30pm", "EventDesc":"RemovePerson",  "view": true},
+        {"key":2, "notifName": "Bill", "notifDate": "Friday, Aug 12th", "notifTime":"7:30pm", "EventDesc":"SecAlert","view": true},
+        {"key":3, "notifName": "Bob2", "notifDate": "Tuesday, July 29th", "notifTime":"5:30pm","EventDesc":"RecogPerson", "view": true},
+        
+      ]);
+
+
 function onPressDatabase (){
   props.navigatePage(1);
 }
-function listEvents (){
-  //List the events here
+
+function onPressDismissAlert(id){
+  console.log("id");
+  const new_TodaysEvents = TodaysEvents.filter((TE) => TE.key !== id);
+  setTodaysEvents(new_TodaysEvents)
+  console.log(new_TodaysEvents);
+  //Call Axios Functions
 }
+
+function TodaysEventList(){
   return (
-    <View style={styles.overture_container}>
+    <SafeAreaView>
+    <ScrollView style={styles.scroll_list} vertical={true}>
+    {
+    
+    TodaysEvents.map((TE) =>{
+        return(
+          <EventAlert {...TE} id={TE.key} DismissAlert = {onPressDismissAlert} />
+        );
+     
+    })}
+  </ScrollView>
+  </SafeAreaView>
+  );
+}
+
+  return (
+    <SafeAreaView style={styles.overture_container}>
         <View style={styles.body}>
           <View>
             <Text style={[styles.text, styles.bold_text, styles.big_text]}> Your Briefing {greeting} </Text>
@@ -30,12 +63,10 @@ function listEvents (){
         </View>
         <View style={styles.break}/>
         <View style={styles.eventAlerts}>
-          <EventAlert EventDescription = "RemovePerson"/>
-          <EventAlert EventDescription = "SecAlert"/>
-          <EventAlert EventDescription = "RecogPerson"/>
+          <TodaysEventList/>
         </View>
         <Button  onPress={onPressDatabase} title="View Saved Database" color="#787878" accessibilityLabel="Databases"/>
-    </View>
+    </SafeAreaView>
   )
 }
 

@@ -3,10 +3,14 @@ import React from 'react'
 
 const ProfileBlock = (props) => {
 
-let Name = props.ProfileName;
-let AddedDate = props.ProfileAddedDate;
-let PhoneNumber = props.PhoneNumber;
-let AdditionalInfo = props.AdditionalInfo;
+  let Name = props.ProfileName;
+  let AddedDate = props.ProfileAddedDate;
+  let PhoneNumber = props.PhoneNumber;
+  let AdditionalInfo = props.AdditionalInfo;
+  function onRemoveButtonPress(id){
+    console.log(id);
+    props.RemoveProfile(id)
+  }
 
   return (
     <View style ={styles.EventBox}>
@@ -30,12 +34,9 @@ let AdditionalInfo = props.AdditionalInfo;
             <Image style={styles.IconContainer} source={require('../assets/Edit.png')}/>
           </TouchableOpacity>
         </View>
-        <View style={styles.Profile_Buttons_Bottom}>
-          <TouchableOpacity onPress={null}>
-            <Image style={styles.Image1} source={require('../assets/3_Dot_Menu_Icon.png')}/>
-          </TouchableOpacity>
-          <TouchableOpacity onPress={null}>
-            <Image style={styles.Image1} source={require('../assets/Bin.png')}/>
+        <View style={styles.Profile_Buttons_Top}>
+          <TouchableOpacity onPress={() => onRemoveButtonPress(props.id)}>
+            <Image style={styles.IconContainer} source={require('../assets/Bin.png')}/>
           </TouchableOpacity>
         </View>
 

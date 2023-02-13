@@ -1,4 +1,4 @@
-import {StyleSheet, Text, TextInput, View, Image, TouchableOpacity, FlatList, ScrollView,SafeAreaView } from 'react-native'
+import {StyleSheet, Text, TextInput, View, Image, TouchableOpacity, FlatList, ScrollView, SafeAreaView, StatusBar} from 'react-native'
 import React, { Component, useEffect } from 'react'
 import NotificationBlock from '../components/NotificationBlock';
 
@@ -6,24 +6,25 @@ export default function NotificationPage(props) {
     
     const[notifications, setNotif] = React.useState 
     ([ 
-        {"key":1, "notifName": "Bob", "notifDate": "Tuesday, July 29th", "notifTime":"5:30pm", "view": true},
-        {"key":2, "notifName": "Bill", "notifDate": "Friday, Aug 12th", "notifTime":"7:30pm","view": true},
-        {"key":3, "notifName": "Bob2", "notifDate": "Tuesday, July 29th", "notifTime":"5:30pm", "view": true},
-        {"key":4, "notifName": "Bob4", "notifDate": "Tuesday, July 29th", "notifTime":"5:30pm", "view": true},
-        {"key":5, "notifName": "Bill2", "notifDate": "Friday, Aug 12th", "notifTime":"7:30pm","view": true },
-        {"key":6, "notifName": "Bob5", "notifDate": "Tuesday, July 29th", "notifTime":"5:30pm", "view": true},
+      {"key":1, "notifName": "Bob", "notifDate": "Tuesday, July 29th", "notifTime":"5:30pm", "EventDesc":"RemovePerson",  "view": true},
+      {"key":2, "notifName": "Bill", "notifDate": "Friday, Aug 12th", "notifTime":"7:30pm", "EventDesc":"RemovePerson","view": true},
+      {"key":3, "notifName": "Bob2", "notifDate": "Tuesday, July 29th", "notifTime":"5:30pm","EventDesc":"RemovePerson", "view": true},
+      {"key":4, "notifName": "Bob4", "notifDate": "Tuesday, July 29th", "notifTime":"5:30pm", "EventDesc":"RemovePerson", "view": true},
+      {"key":5, "notifName": "Bill2", "notifDate": "Friday, Aug 12th", "notifTime":"7:30pm", "EventDesc":"RemovePerson","view": true },
+      {"key":6, "notifName": "Bob5", "notifDate": "Tuesday, July 29th", "notifTime":"5:30pm", "EventDesc":"RemovePerson", "view": true},
         
       ]);
     
-      function onPressUploadPhoto(){
-        props.navigatePage(5);
-      }
+    function onPressUploadPhoto(){
+      props.navigatePage(2);
+    }
 
-      //TODO FIXME PLEASE, THIS DON'T WORK
-      function onPressDismissAlert(id){
-        const new_notif = notifications.filter((notif) => notif.key !== id);
+  
+    function onPressDismissAlert(id){
+      const new_notif = notifications.filter((notif) => notif.key !== id);
       setNotif(new_notif)
-      
+      console.log(new_notif);
+      //Call Axios Functions
     }
     
 
@@ -37,7 +38,7 @@ export default function NotificationPage(props) {
         notifications.map((notif) =>{
          
             return(
-              <NotificationBlock {...notif} id={notif.key} UploadPhoto = {onPressUploadPhoto} DismissAlert = {() => onPressDismissAlert} />
+              <NotificationBlock {...notif} id={notif.key} UploadPhoto = {onPressUploadPhoto} DismissAlert = {onPressDismissAlert} />
             );
          
         })}
@@ -46,8 +47,9 @@ export default function NotificationPage(props) {
       );
     }
 
-    function removeNotif(i){
-      
+    function onSearch(){
+      //Do some searching
+      console.log("Doing some searching");
     }
 
 
@@ -57,14 +59,14 @@ export default function NotificationPage(props) {
         <Text style={[styles.text, styles.big_text, styles.bold_text ]}> Notifications </Text>
         <View style={styles.text_input}>
           <TextInput editable maxLength={20}  onChangeQuery={text => onChangeQuery(text)} style={styles.text_input} > Search for notif</TextInput>
-          <TouchableOpacity>
+          <TouchableOpacity onPress={onSearch}>
             <Image style={styles.icon} source={require('../assets/Search.png')}/>
           </TouchableOpacity>
         </View>
        
         <NotifList/>
         
-
+        <StatusBar style="auto" />
       </View>
     )
   }

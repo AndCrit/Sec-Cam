@@ -1,4 +1,4 @@
-import {StyleSheet, Text, TextInput, View, Image, TouchableOpacity, SafeAreaView, ScrollView } from 'react-native'
+import {StyleSheet, Text, TextInput, View, Image, TouchableOpacity, SafeAreaView, ScrollView, StatusBar } from 'react-native'
 import React, { Component } from 'react'
 import ProfileBlock from '../components/ProfileBlock'
 
@@ -6,43 +6,56 @@ export default function SavedDatabase(props) {
 
     const[query, onChangeQuery] = React.useState('Useless Multiline Placeholder');
 
-    const[profiles, onChangeProfile] = React.useState 
+    const[profiles, onSetProfile] = React.useState 
     ([ 
-        {"key":1, "ProfileName": "Bob", "ProfileAddedDate": "Tuesday, July 29th", "AdditionalInfo":"5:30pm", "PhoneNumber": "416-123-1111"},
-        {"key":2, "ProfileName": "Bill", "ProfileAddedDate": "Friday, Aug 12th", "AdditionalInfo":"7:30pm", "PhoneNumber": "416-123-1111"},
-        {"key":3, "ProfileName": "Bob2", "ProfileAddedDate": "Tuesday, July 29th", "AdditionalInfo":"5:30pm", "PhoneNumber": "416-123-1111"},
-        {"key":4, "ProfileName": "Bo", "ProfileAddedDate": "Tuesday, July 29th", "AdditionalInfo":"5:30pm", "PhoneNumber": "416-123-1111"},
-        {"key":5, "ProfileName": "Bin", "ProfileAddedDate": "Friday, Aug 12th", "AdditionalInfo":"7:30pm", "PhoneNumber": "416-123-1111"},
-        {"key":6, "ProfileName": "Burp", "ProfileAddedDate": "Tuesday, July 29th", "AdditionalInfo":"5:30pm", "PhoneNumber": "416-123-1111"},
+        {"key":1, "ProfileName": "Bob", "ProfileAddedDate": "Tuesday, July 29th", "AdditionalInfo":"Likes Peanuts", "PhoneNumber": "416-123-1111"},
+        {"key":2, "ProfileName": "Bill", "ProfileAddedDate": "Friday, Aug 12th", "AdditionalInfo":"Eats Fish", "PhoneNumber": "416-123-1111"},
+        {"key":3, "ProfileName": "Bob2", "ProfileAddedDate": "Tuesday, July 29th", "AdditionalInfo":"Stinky toes", "PhoneNumber": "416-123-1111"},
+        {"key":4, "ProfileName": "Bo", "ProfileAddedDate": "Tuesday, July 29th", "AdditionalInfo":"Harry Potter Fan", "PhoneNumber": "416-123-1111"},
+        {"key":5, "ProfileName": "Bin", "ProfileAddedDate": "Friday, Aug 12th", "AdditionalInfo":"Weeb", "PhoneNumber": "416-123-1111"},
+        {"key":6, "ProfileName": "Burp", "ProfileAddedDate": "Tuesday, July 29th", "AdditionalInfo":"Confused", "PhoneNumber": "416-123-1111"},
         
       ]);
 
-      function ProfileList(){
-      
-        return (
-          <SafeAreaView>
-          <ScrollView style={styles.scroll_list} vertical={true}>
-          {profiles.map((profile) =>{
-            return(
-              <ProfileBlock {...profile}/>
-            );
-          })}
-        </ScrollView>
-        </SafeAreaView>
-        );
+      function onSearch(){
+        //Do some searching
+        console.log("Doing some searching");
       }
+
+      function onPressRemoveProfile(id){
+        const new_profiles = profiles.filter((profile) => profile.key !== id);
+        onSetProfile(new_profiles)
+        console.log(new_profiles);
+        //Call Axios Functions
+      }
+
+    function ProfileList(){
+    
+      return (
+        <SafeAreaView>
+        <ScrollView style={styles.scroll_list} vertical={true}>
+        {profiles.map((profile) =>{
+          return(
+            <ProfileBlock {...profile} id={profile.key} RemoveProfile = {onPressRemoveProfile} />
+          );
+        })}
+      </ScrollView>
+      </SafeAreaView>
+      );
+    }
 
     return (
       <View style={styles.overture_container}>
           <Text style={[styles.text, styles.big_text, styles.bold_text ]}> Database</Text>
             <View style={styles.text_input}>
             <TextInput editable maxLength={20}  onChangeQuery={text => onChangeQuery(text)} > Search for profile </TextInput>
-            <TouchableOpacity>
+            <TouchableOpacity onPress={onSearch}>
               <Image style={styles.icon} source={require('../assets/Search.png')}/>
             </TouchableOpacity>
         </View>
         <Text style={styles.text} >Saved Profiles</Text>
         <ProfileList/>
+        <StatusBar style="auto" />
       </View>
     )
   }
