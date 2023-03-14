@@ -11,16 +11,30 @@ export default function Upload() {
   const PlaceholderImage = require('../assets/Streetview.jpg');
   const [selectedImage, setSelectedImage] = React.useState(PlaceholderImage);
   const[ProfileName, onChangeProfileName] = React.useState('New Profile');
+  const[Gender, onChangeGender] = React.useState('Gender');
+  const [Age, onChangeAge] = React.useState('Age');
   const[Photo, onSetPhoto] = React.useState(PlaceholderImage);
   const [modalVisible, setModalVisible] = useState(false);
 
 
-  function onPressSubmit(){
-    //Does Stuff
-    setModalVisible(!modalVisible);
-    console.log("Submitting")
 
+
+  async function handleSubmit() {
+    console.log("test");
+    let userRequest = {
+      
+      "name":ProfileName,
+      "gender": Gender,
+      "age": Age,
+      "photo": selectedImage,
+    }
+    console.log(userRequest);
+    //await createUser(userRequest);
+    setModalVisible(!modalVisible);
   }
+
+
+
 
   const pickImageAsync = async () => {
     let result = await ImagePicker.launchImageLibraryAsync({
@@ -52,20 +66,20 @@ export default function Upload() {
               <Text style={[styles.text, styles.bold_text]}>New Profile Form</Text>    
               <Image source={selectedImage} style={styles.imagesmall} />    
               <View style={styles.inputSections}>
-                <TextInput label="Profile Name"
+                <TextInput id = "user_profile_name"
                   mode="outlined"
                   style={styles.textinput}
-                  onChangeQuery={text => onChangeProfileName(text)}/>
-                <TextInput label="Age"
+                  onChangeText={text => onChangeProfileName(text)}/>
+                <TextInput id = "user_age"
                   mode="outlined"
                   style={styles.textinput}
-                  onChangeQuery={text => onChangeProfileName(text)}/>
-                <TextInput label="Gender"
+                  onChangeText={text => onChangeAge(text)}/>
+                <TextInput id = "user_gender"
                   mode="outlined"
                   style={styles.textinput}
-                  onChangeQuery={text => onChangeProfileName(text)}/>
+                  onChangeText={text => onChangeGender(text)}/>
               </View>
-              <TouchableOpacity onPress={onPressSubmit} style={styles.SubmitButton}>
+              <TouchableOpacity onPress={() => handleSubmit()} style={styles.SubmitButton}>
                   <Text style={styles.text}> Submit</Text>
               </TouchableOpacity>
               

@@ -1,10 +1,11 @@
 import {StyleSheet, Text, TextInput, View, Image, TouchableOpacity, FlatList, ScrollView, SafeAreaView, StatusBar} from 'react-native'
 import React, { Component, useEffect } from 'react'
 import NotificationBlock from '../components/NotificationBlock';
+import { getNotifs } from './api';
 
 export default function NotificationPage(props) {
     
-    const[notifications, setNotif] = React.useState 
+    const[notifs, setNotifList] = React.useState 
     ([ 
       {"key":1, "notifName": "Bob", "notifDate": "Tuesday, July 29th", "notifTime":"5:30pm", "EventDesc":"RemovePerson",  "view": true},
       {"key":2, "notifName": "Bill", "notifDate": "Friday, Aug 12th", "notifTime":"7:30pm", "EventDesc":"RemovePerson","view": true},
@@ -13,16 +14,37 @@ export default function NotificationPage(props) {
       {"key":5, "notifName": "Bill2", "notifDate": "Friday, Aug 12th", "notifTime":"7:30pm", "EventDesc":"RemovePerson","view": true },
       {"key":6, "notifName": "Bob5", "notifDate": "Tuesday, July 29th", "notifTime":"5:30pm", "EventDesc":"RemovePerson", "view": true},
         
-      ]);
+    ]);
     
+      const [displayData, setdisplayData] = React.useState([]);
+      const [count, setCount] = React.useState(-1);
+  
+      function onFilter(filterText) {
+        console.log("Query: "+query);
+        var tempObj = notifs; //change to profiles to test
+        tempObj = notifs.filter(function (obj) {
+            return obj.notifName.toLowerCase().includes(filterText.toLowerCase())
+        }).map(function (obj) {
+            return obj;
+        });
+        
+        setdisplayData(tempObj);
+        console.log(tempObj);
+    }
+      
+    async function loadData() {
+      setNotifList(await getNotifs)
+      if(count<0)setCount(0)
+    }
+
     function onPressUploadPhoto(){
       props.navigatePage(2);
     }
 
   
     function onPressDismissAlert(id){
-      const new_notif = notifications.filter((notif) => notif.key !== id);
-      setNotif(new_notif)
+      const new_notif = notifs.filter((notif) => notif.key !== id);
+      setNotifList(new_notif)
       console.log(new_notif);
       //Call Axios Functions
     }
@@ -35,7 +57,7 @@ export default function NotificationPage(props) {
         <ScrollView style={styles.scroll_list} vertical={true}>
         {
         
-        notifications.map((notif) =>{
+        notifs.map((notif) =>{
          
             return(
               <NotificationBlock {...notif} id={notif.key} UploadPhoto = {onPressUploadPhoto} DismissAlert = {onPressDismissAlert} />
@@ -58,8 +80,8 @@ export default function NotificationPage(props) {
       <View style={styles.overture_container}>
         <Text style={[styles.text, styles.big_text, styles.bold_text ]}> Notifications </Text>
         <View style={styles.text_input}>
-          <TextInput editable maxLength={20}  onChangeQuery={text => onChangeQuery(text)} style={styles.text_input} > Search for notif</TextInput>
-          <TouchableOpacity onPress={onSearch}>
+          <TextInput editable maxLength={20}  onChangeText={text => onChangeQuery(text)} style={styles.text_input} > Search for notif</TextInput>
+          <TouchableOpacity onPress={() => onFilter(query)}>
             <Image style={styles.icon} source={require('../assets/Search.png')}/>
           </TouchableOpacity>
         </View>

@@ -1,6 +1,7 @@
 import {StyleSheet, Text, TextInput, View, Image, TouchableOpacity, SafeAreaView, ScrollView, StatusBar } from 'react-native'
 import React, { Component } from 'react'
 import ProfileBlock from '../components/ProfileBlock'
+import { getUsers } from './api';
 
 export default function SavedDatabase(props) {
 
@@ -15,19 +16,35 @@ export default function SavedDatabase(props) {
         {"key":5, "ProfileName": "Bin", "ProfileAddedDate": "Friday, Aug 12th", "AdditionalInfo":"Weeb", "PhoneNumber": "416-123-1111"},
         {"key":6, "ProfileName": "Burp", "ProfileAddedDate": "Tuesday, July 29th", "AdditionalInfo":"Confused", "PhoneNumber": "416-123-1111"},
         
-      ]);
+    ]);
+    const [userList, setUserList] = React.useState([]);
+    const [displayData, setdisplayData] = React.useState([]);
+    const [count, setCount] = React.useState(-1);
 
-      function onSearch(){
-        //Do some searching
-        console.log("Doing some searching");
-      }
+    function onFilter(filterText) {
+      console.log("Query: "+query);
+      var tempObj = userList; //change to profiles to test
+      tempObj = userList.filter(function (obj) {
+          return obj.ProfileName.toLowerCase().includes(filterText.toLowerCase())
+      }).map(function (obj) {
+          return obj;
+      });
+      
+      setdisplayData(tempObj);
+      console.log(tempObj);
+  }
+    
+    async function loadData() {
+      setUserList(await getUsers())
+      if(count<0)setCount(0)
+    }
 
-      function onPressRemoveProfile(id){
-        const new_profiles = profiles.filter((profile) => profile.key !== id);
-        onSetProfile(new_profiles)
-        console.log(new_profiles);
-        //Call Axios Functions
-      }
+    function onPressRemoveProfile(id){
+      const new_profiles = profiles.filter((profile) => profile.key !== id);
+      onSetProfile(new_profiles)
+      console.log(new_profiles);
+      //Call Axios Functions
+    }
 
     function ProfileList(){
     
@@ -48,8 +65,8 @@ export default function SavedDatabase(props) {
       <View style={styles.overture_container}>
           <Text style={[styles.text, styles.big_text, styles.bold_text ]}> Database</Text>
             <View style={styles.text_input}>
-            <TextInput editable maxLength={20}  onChangeQuery={text => onChangeQuery(text)} > Search for profile </TextInput>
-            <TouchableOpacity onPress={onSearch}>
+            <TextInput editable maxLength={20}  onChangeText={text => onChangeQuery(text)} > Search for profile </TextInput>
+            <TouchableOpacity onPress={() => onFilter(query)}>
               <Image style={styles.icon} source={require('../assets/Search.png')}/>
             </TouchableOpacity>
         </View>
