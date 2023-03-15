@@ -138,15 +138,4 @@ def firebase_update_entry(ID, name):
 
 
 ########## Main ##########
-#Database test
-#firebase_delete_all()
-#firebase_create_all('testJSON.json')
-
-wait_count = 0
-while(storage.bucket(storage_bucket).get_blob('StationC.txt') == None):
-    wait_count += 1
-    print('Waiting {}'.format(wait_count))
-
-print('Found file, final wait count: {}'.format(wait_count))
-
-firebase_storage_download_file('StationC.txt', 'StationC.txt')
+firebase_storage_upload_file('StationC.txt', 'testFile.txt')
