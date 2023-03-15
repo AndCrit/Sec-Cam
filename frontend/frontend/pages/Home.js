@@ -1,55 +1,105 @@
 import React from 'react'
-import {StyleSheet, Text, Image, View, SafeAreaView, Button} from 'react-native'
+import {StyleSheet, Text, Image, View, SafeAreaView, Button, ScrollView} from 'react-native'
 import EventAlert from '../components/EventAlert'
+import RoundedStamp from '../components/RoundedStamp';
 
 function Home(props) {
-var greeting; 
+var greeting;
+
+let TimeRoundedStampValue = {descriptor:"Currently 00:00 pm", imageIcon:'sun'}
+let CameraRoundedStampValue = {descriptor:"Camera Status", imageIcon:'on'}
+
+const[TodaysEvents, setTodaysEvents] = React.useState 
+    ([ 
+        {"key":1, "notifName": "Bob", "notifDate": "Tuesday, July 29th", "notifTime":"5:30pm", "EventDesc":"RemovePerson",  "view": true},
+        {"key":2, "notifName": "Bill", "notifDate": "Friday, Aug 12th", "notifTime":"7:30pm", "EventDesc":"SecAlert","view": true},
+        {"key":3, "notifName": "Bob2", "notifDate": "Tuesday, July 29th", "notifTime":"5:30pm","EventDesc":"RecogPerson", "view": true},
+        
+      ]);
+
 
 function onPressDatabase (){
-  alert('Enterring Saved Database page');
   props.navigatePage(1);
 }
+
+function onPressDismissAlert(id){
+  console.log("id");
+  const new_TodaysEvents = TodaysEvents.filter((TE) => TE.key !== id);
+  setTodaysEvents(new_TodaysEvents)
+  console.log(new_TodaysEvents);
+  //Call Axios Functions
+}
+
+function TodaysEventList(){
   return (
-    <View style={styles.overture_container}>
+    <SafeAreaView>
+    <ScrollView style={styles.scroll_list} vertical={true}>
+    {
+    
+    TodaysEvents.map((TE) =>{
+        return(
+          <EventAlert {...TE} id={TE.key} DismissAlert = {onPressDismissAlert} />
+        );
+     
+    })}
+  </ScrollView>
+  </SafeAreaView>
+  );
+}
+
+  return (
+    <SafeAreaView style={styles.overture_container}>
         <View style={styles.body}>
-          <Text> Your Briefing {greeting} </Text>
-          <View style={styles.rounded_container}/>
+          <View>
+            <Text style={[styles.text, styles.bold_text, styles.big_text]}> Your Briefing {greeting} </Text>
+            <Text style={styles.text}> Tuesday, July 20</Text>
+          </View>
+          <RoundedStamp {...TimeRoundedStampValue}/>
         </View>
-        <View>
-          <Text> Date </Text>
-          <View style={styles.rounded_container}/>
+        
+        <View style={styles.body}>
+          <Text style={[styles.text, styles.big_text]}> Today's Alerts </Text>
+          <RoundedStamp {...CameraRoundedStampValue}/>
         </View>
-        <View>
-          <Text> Today's Alerts </Text>
+        <View style={styles.break}/>
+        <View style={styles.eventAlerts}>
+          <TodaysEventList/>
         </View>
-        <EventAlert/>
-        <EventAlert/>
-        <EventAlert/>
-        <Button
-          onPress={onPressDatabase}
-          title="View Saved Database"
-          color="#787878"
-          accessibilityLabel="Databases"
-        />
-       
-    </View>
+        <Button  onPress={onPressDatabase} title="View Saved Database" color="#787878" accessibilityLabel="Databases"/>
+    </SafeAreaView>
   )
 }
 
 const styles = StyleSheet.create({
- 
-  rounded_container: {
-    borderRadius: 25,
-    width: 125,
-    height: 50,
-    backgroundColor: '#787878',
-  },
   overture_container: {
-    backgroundColor: '#5D66A2',
+    backgroundColor: '#535354',
     height: '100%',
-
-
-  }
+  },
+  break: {
+    height: "2.5%",
+    backgroundColor: '#535354',
+  },
+  body: {
+    flexDirection: "row",
+    justifyContent: 'space-between',
+    paddingTop: 20,
+    paddingHorizontal: 10,
+  },
+  text:{
+    color:'white',
+    fontSize: 16,
+    fontWeight: "400",
+  },
+  bold_text:{
+    fontWeight:"700",
+  },
+  big_text:{
+    fontSize: 20,
+  },
+  eventAlerts: {
+    justifyContent:'center',
+    alignItems: 'center',
+  },
 });
 
 export default Home
