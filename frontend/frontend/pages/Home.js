@@ -2,7 +2,7 @@ import React from 'react'
 import {StyleSheet, Text, Image, View, SafeAreaView, Button, ScrollView} from 'react-native'
 import EventAlert from '../components/EventAlert'
 import RoundedStamp from '../components/RoundedStamp';
-
+import {attemptDownload, downloadFile} from '../backend/backend'
 function Home(props) {
 var greeting;
 const today = new Date();

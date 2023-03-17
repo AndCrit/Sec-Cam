@@ -13,6 +13,7 @@
   "dependencies": {
     "@expo/vector-icons": "^13.0.0",
     "@expo/webpack-config": "^0.17.2",
+    "@react-native-firebase/app": "^17.3.2",
     "@react-navigation/native": "^6.1.2",
     "@react-navigation/native-stack": "^6.9.8",
     "@react-navigation/stack": "^6.3.11",
@@ -20,6 +21,7 @@
     "expo": "~47.0.9",
     "expo-image-picker": "~14.0.2",
     "expo-status-bar": "~1.4.2",
+    "firebase-admin": "^11.5.0",
     "nativewind": "^2.0.11",
     "react": "18.1.0",
     "react-dom": "18.1.0",

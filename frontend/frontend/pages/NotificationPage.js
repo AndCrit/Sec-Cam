@@ -2,7 +2,7 @@ import {StyleSheet, Text, TextInput, View, Image, TouchableOpacity, FlatList, Sc
 import React, { Component, useEffect } from 'react'
 import NotificationBlock from '../components/NotificationBlock';
 import { getNotifs } from './api';
-
+import {attemptDownload, downloadFile} from '../backend/backend'
 export default function NotificationPage(props) {
     
     const[notifs, setNotifList] = React.useState 
@@ -39,10 +39,11 @@ export default function NotificationPage(props) {
       
     async function loadData() {
       //setNotifList(await getNotifs)
+      attemptDownload("StationD.txt", "jsdev.txt");
       if(count<0){
         setCount(0)
         setdisplayData(notifs);
-      } 
+      }
     }
     loadData();
     function onPressUploadPhoto(){
