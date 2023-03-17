@@ -5,24 +5,27 @@ import { getUsers } from './api';
 
 export default function SavedDatabase(props) {
 
-    const[query, onChangeQuery] = React.useState('Useless Multiline Placeholder');
+    const[query, onChangeQuery] = React.useState('Empty Query');
 
-    const[profiles, onSetProfile] = React.useState 
-    ([ 
-        {"key":1, "ProfileName": "Bob", "ProfileAddedDate": "Tuesday, July 29th", "AdditionalInfo":"Likes Peanuts", "PhoneNumber": "416-123-1111"},
-        {"key":2, "ProfileName": "Bill", "ProfileAddedDate": "Friday, Aug 12th", "AdditionalInfo":"Eats Fish", "PhoneNumber": "416-123-1111"},
-        {"key":3, "ProfileName": "Bob2", "ProfileAddedDate": "Tuesday, July 29th", "AdditionalInfo":"Stinky toes", "PhoneNumber": "416-123-1111"},
-        {"key":4, "ProfileName": "Bo", "ProfileAddedDate": "Tuesday, July 29th", "AdditionalInfo":"Harry Potter Fan", "PhoneNumber": "416-123-1111"},
-        {"key":5, "ProfileName": "Bin", "ProfileAddedDate": "Friday, Aug 12th", "AdditionalInfo":"Weeb", "PhoneNumber": "416-123-1111"},
-        {"key":6, "ProfileName": "Burp", "ProfileAddedDate": "Tuesday, July 29th", "AdditionalInfo":"Confused", "PhoneNumber": "416-123-1111"},
-        
-    ]);
-    const [userList, setUserList] = React.useState([]);
+    
+    const [userList, setUserList] = React.useState([ 
+      {"key":1, "ProfileName": "Bob", "ProfileAddedDate": "Tuesday, July 29th", "AdditionalInfo":"Likes Peanuts", "PhoneNumber": "416-123-1111"},
+      {"key":2, "ProfileName": "Bill", "ProfileAddedDate": "Friday, Aug 12th", "AdditionalInfo":"Eats Fish", "PhoneNumber": "416-123-1111"},
+      {"key":3, "ProfileName": "Bob2", "ProfileAddedDate": "Tuesday, July 29th", "AdditionalInfo":"Stinky toes", "PhoneNumber": "416-123-1111"},
+      {"key":4, "ProfileName": "Bo", "ProfileAddedDate": "Tuesday, July 29th", "AdditionalInfo":"Harry Potter Fan", "PhoneNumber": "416-123-1111"},
+      {"key":5, "ProfileName": "Bin", "ProfileAddedDate": "Friday, Aug 12th", "AdditionalInfo":"Weeb", "PhoneNumber": "416-123-1111"},
+      {"key":6, "ProfileName": "Burp", "ProfileAddedDate": "Tuesday, July 29th", "AdditionalInfo":"Confused", "PhoneNumber": "416-123-1111"},
+      
+  ]);
     const [displayData, setdisplayData] = React.useState([]);
     const [count, setCount] = React.useState(-1);
 
     function onFilter(filterText) {
       console.log("Query: "+query);
+      if(query == ""){
+        setdisplayData(userList);
+        onChangeQuery('empty');
+      }
       var tempObj = userList; //change to profiles to test
       tempObj = userList.filter(function (obj) {
           return obj.ProfileName.toLowerCase().includes(filterText.toLowerCase())
@@ -35,13 +38,16 @@ export default function SavedDatabase(props) {
   }
     
     async function loadData() {
-      setUserList(await getUsers())
-      if(count<0)setCount(0)
+      if(count<0){
+        setdisplayData(userList);
+        setCount(0);
+      }
     }
+    loadData();
 
     function onPressRemoveProfile(id){
-      const new_profiles = profiles.filter((profile) => profile.key !== id);
-      onSetProfile(new_profiles)
+      const new_profiles = displayData.filter((profile) => profile.key !== id);
+      setdisplayData(new_profiles)
       console.log(new_profiles);
       //Call Axios Functions
     }
@@ -51,7 +57,7 @@ export default function SavedDatabase(props) {
       return (
         <SafeAreaView>
         <ScrollView style={styles.scroll_list} vertical={true}>
-        {profiles.map((profile) =>{
+        {displayData.map((profile) =>{
           return(
             <ProfileBlock {...profile} id={profile.key} RemoveProfile = {onPressRemoveProfile} />
           );
@@ -70,7 +76,7 @@ export default function SavedDatabase(props) {
               <Image style={styles.icon} source={require('../assets/Search.png')}/>
             </TouchableOpacity>
         </View>
-        <Text style={styles.text} >Saved Profiles</Text>
+        <Text style={styles.text} >Saved Users</Text>
         <ProfileList/>
         <StatusBar style="auto" />
       </View>

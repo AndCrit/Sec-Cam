@@ -21,11 +21,11 @@ const ProfileBlock = (props) => {
                 uri : 'https://upload.wikimedia.org/wikipedia/commons/thumb/2/2c/Default_pfp.svg/1200px-Default_pfp.svg.png'}}>
           </Image>
         </View>
-      <View style={styles.Profile_Text}>
-          <Text style={styles.bold_text}> {Name} </Text>
-          <Text> Added: {AddedDate} </Text>
-          <Text> Phone #: {PhoneNumber} </Text>
-          <Text> Addtional Info: {AdditionalInfo}</Text>
+      <View style={[styles.Profile_Text]}>
+          <Text style={[styles.text, styles.bold_text]}> {Name} </Text>
+          <Text style={styles.text}> Added: {AddedDate} </Text>
+          <Text style={styles.text}> Phone #: {PhoneNumber} </Text>
+          <Text style={styles.text}> Addtional Info: {AdditionalInfo}</Text>
       </View>
       <View style={styles.Profile_Buttons}>
         
@@ -105,15 +105,12 @@ const styles = StyleSheet.create({
     text:{
       color:'white',
       fontSize: 16,
-      fontWeight: "400",
-      textAlign:"flex-start",
     },
     IconContainer:{
       height: 50,
       width: 50,
       tintColor: 'white',
     },
-  
   
     text_dealigner:{
       textAlign:"auto",

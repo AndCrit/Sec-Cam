@@ -16,35 +16,43 @@ export default function NotificationPage(props) {
         
     ]);
     
-      const [displayData, setdisplayData] = React.useState([]);
-      const [count, setCount] = React.useState(-1);
-  
-      function onFilter(filterText) {
-        console.log("Query: "+query);
-        var tempObj = notifs; //change to profiles to test
-        tempObj = notifs.filter(function (obj) {
-            return obj.notifName.toLowerCase().includes(filterText.toLowerCase())
-        }).map(function (obj) {
-            return obj;
-        });
-        
-        setdisplayData(tempObj);
-        console.log(tempObj);
+    const [displayData, setdisplayData] = React.useState([]);
+    const [count, setCount] = React.useState(-1);
+    const[query, onChangeQuery] = React.useState('Empty');
+    
+    //This function deals the damage
+    function onFilter(filterText) {
+      console.log("Query: "+query);
+      if(query == ""){
+        setdisplayData(notifs);
+        onChangeQuery('empty');
+      }
+      var tempObj = notifs; //change to profiles to test
+      tempObj = notifs.filter(function (obj) {
+          return obj.notifName.toLowerCase().includes(filterText.toLowerCase())
+      }).map(function (obj) {
+          return obj;
+      });
+      setdisplayData(tempObj);
+      console.log(displayData);
     }
       
     async function loadData() {
-      setNotifList(await getNotifs)
-      if(count<0)setCount(0)
+      //setNotifList(await getNotifs)
+      if(count<0){
+        setCount(0)
+        setdisplayData(notifs);
+      } 
     }
-
+    loadData();
     function onPressUploadPhoto(){
       props.navigatePage(2);
     }
 
   
     function onPressDismissAlert(id){
-      const new_notif = notifs.filter((notif) => notif.key !== id);
-      setNotifList(new_notif)
+      const new_notif = displayData.filter((notif) => notif.key !== id);
+      setdisplayData(new_notif)
       console.log(new_notif);
       //Call Axios Functions
     }
@@ -57,7 +65,7 @@ export default function NotificationPage(props) {
         <ScrollView style={styles.scroll_list} vertical={true}>
         {
         
-        notifs.map((notif) =>{
+        displayData.map((notif) =>{
          
             return(
               <NotificationBlock {...notif} id={notif.key} UploadPhoto = {onPressUploadPhoto} DismissAlert = {onPressDismissAlert} />
@@ -69,13 +77,10 @@ export default function NotificationPage(props) {
       );
     }
 
-    function onSearch(){
-      //Do some searching
-      console.log("Doing some searching");
-    }
+   
 
 
-    const[query, onChangeQuery] = React.useState('Useless Multiline Placeholder');
+    
     return (
       <View style={styles.overture_container}>
         <Text style={[styles.text, styles.big_text, styles.bold_text ]}> Notifications </Text>

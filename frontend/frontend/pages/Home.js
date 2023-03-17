@@ -5,8 +5,10 @@ import RoundedStamp from '../components/RoundedStamp';
 
 function Home(props) {
 var greeting;
+const today = new Date();
+console.log(today.toDateString());
 
-let TimeRoundedStampValue = {descriptor:"Currently 00:00 pm", imageIcon:'sun'}
+let TimeRoundedStampValue = {descriptor:"Currently      "+today.toLocaleTimeString(), imageIcon:'sun'}
 let CameraRoundedStampValue = {descriptor:"Camera Status", imageIcon:'on'}
 
 const[TodaysEvents, setTodaysEvents] = React.useState 
@@ -16,17 +18,24 @@ const[TodaysEvents, setTodaysEvents] = React.useState
         {"key":3, "notifName": "Bob2", "notifDate": "Tuesday, July 29th", "notifTime":"5:30pm","EventDesc":"RecogPerson", "view": true},
         
       ]);
+const[notifs, setNotifList] = React.useState([]);
 
 
 function onPressDatabase (){
   props.navigatePage(1);
 }
 
+//To filter todays
+function filterTodays(){
+  const new_TodaysEvents = notifs.filter((TE) => TE.notifDate !== today.toDateString());
+  setTodaysEvents(new_TodaysEvents)
+}
+
+
 function onPressDismissAlert(id){
   console.log("id");
   const new_TodaysEvents = TodaysEvents.filter((TE) => TE.key !== id);
   setTodaysEvents(new_TodaysEvents)
-  console.log(new_TodaysEvents);
   //Call Axios Functions
 }
 
@@ -52,7 +61,7 @@ function TodaysEventList(){
         <View style={styles.body}>
           <View>
             <Text style={[styles.text, styles.bold_text, styles.big_text]}> Your Briefing {greeting} </Text>
-            <Text style={styles.text}> Tuesday, July 20</Text>
+            <Text style={styles.text}> {today.toDateString()} </Text>
           </View>
           <RoundedStamp {...TimeRoundedStampValue}/>
         </View>
