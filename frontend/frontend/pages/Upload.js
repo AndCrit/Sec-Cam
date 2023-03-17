@@ -27,6 +27,7 @@ export default function Upload() {
       "gender": Gender,
       "age": Age,
       "photo": selectedImage,
+      "date" : new Date()
     }
     console.log(userRequest);
     //await createUser(userRequest);
