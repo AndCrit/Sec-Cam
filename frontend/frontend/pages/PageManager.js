@@ -11,7 +11,7 @@ import NotificationPage from './NotificationPage'
 
 
 export default function Main() {
-    const [page, currentPage] = useState(-1)
+    const [page, currentPage] = useState(5)
 
 
     function navigatePage(num) {

@@ -5,6 +5,7 @@ import Button from '../components/Button';
 import * as ImagePicker from 'expo-image-picker';
 import React, { Component, useState, useEffect } from 'react'
 import { TextInput } from "react-native-paper";
+import {uploadImage,verify} from "../backend/backend"
 
 
 export default function Upload() {
@@ -31,6 +32,9 @@ export default function Upload() {
     }
     console.log(userRequest);
     //await createUser(userRequest);
+    console.log("PRINTING");
+    console.log(selectedImage.uri);
+    uploadImage(selectedImage.uri,"newfile.jpeg");
     setModalVisible(!modalVisible);
   }
 
