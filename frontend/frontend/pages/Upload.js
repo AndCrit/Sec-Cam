@@ -6,7 +6,7 @@ import * as ImagePicker from 'expo-image-picker';
 import React, { Component, useState, useEffect } from 'react'
 import { TextInput } from "react-native-paper";
 import {uploadImage,verify} from "../backend/backend"
-
+import {firebase} from "../backend/config"
 
 export default function Upload() {
   const PlaceholderImage = require('../assets/Streetview.jpg');
@@ -17,24 +17,77 @@ export default function Upload() {
   const[Photo, onSetPhoto] = React.useState(PlaceholderImage);
   const [modalVisible, setModalVisible] = useState(false);
 
-
-
-
   async function handleSubmit() {
     console.log("test");
+    setUploading(true);
+
     let userRequest = {
       
       "name":ProfileName,
       "gender": Gender,
       "age": Age,
-      "photo": selectedImage,
+      "photo": ProfileName + ".jpg",
       "date" : new Date()
     }
-    console.log(userRequest);
+    //console.log(userRequest);
     //await createUser(userRequest);
-    console.log("PRINTING");
-    console.log(selectedImage.uri);
-    uploadImage(selectedImage.uri,"newfile.jpeg");
+    //console.log("PRINTING");
+    //console.log(selectedImage.uri);
+    //uploadImage(selectedImage.uri,"newfile.jpeg");
+    const infoJSON = JSON.stringify(userRequest)
+    const infoblob = new Blob([infoJSON], {
+      type:'application/json'
+    })
+    
+    const filename = "StationE"
+    // Why are we using XMLHttpRequest? See:
+    // https://github.com/expo/expo/issues/2402#issuecomment-443726662
+    const blob = await new Promise((resolve, reject) => {
+      const xhr = new XMLHttpRequest();
+      xhr.onload = function() {
+        resolve(xhr.response);
+      };
+      xhr.onerror = function(e) {
+        console.log(e);
+        reject(new TypeError('Network request failed'));
+      };
+      xhr.responseType = 'blob';
+      xhr.open('GET', selectedImage.uri, true);
+      xhr.send(null);
+    });
+
+    const ref = firebase
+      .storage()
+      .ref()
+      .child(filename+".json");
+    const snapshot = await ref.put(infoblob);
+    const ref2 = firebase
+      .storage()
+      .ref()
+      .child(filename+".jpg");
+    const snapshot2 = await ref2.put(blob);
+
+    // We're done with the blob, close and release it
+    blob.close();
+
+    //return await snapshot.ref.getDownloadURL();
+    /**
+     * const response = await fetch(selectedImage)
+    const blob = await response.blob();
+    const filename = image.uri.substring(image.uri.lastIndexOf('/')+1);
+    var ref = firebase.storage().ref.child(filename).put(blob);
+    console.log("attempting")
+    try {
+      await ref;  
+    } catch (e) {
+      console.log("ERRRROOOOOOOOOOOOOOORRRRR")
+      console.log(e);
+    }
+    console.log("Uploaded");
+    setUploading(false);
+    setSelectedImage(null);
+    
+     */
     setModalVisible(!modalVisible);
   }
 
@@ -43,15 +96,20 @@ export default function Upload() {
 
   const pickImageAsync = async () => {
     let result = await ImagePicker.launchImageLibraryAsync({
+      mediaTypes: ImagePicker.MediaTypeOptions.All,
+      aspect:[4,3],
       allowsEditing: true,
       quality: 1,
     });
 
+
+  
    console.log(result)
    console.log(result.assets[0].uri)
-   let image = result.assets[0].uri;
-   setSelectedImage(result.assets[0]);
+   const source = {uri:result.assets[0].uri};
+   setSelectedImage(source);
    console.log("Selected Image: "+selectedImage)
+   setModalVisible(true);
    
   };
 
@@ -103,7 +161,7 @@ export default function Upload() {
       </View>
       <View style={styles.footerContainer}>
         <Button theme="primary" label="Choose a photo" onPress={pickImageAsync} />
-        <Button theme="primary" label="Use this photo" onPress={() => setModalVisible(true)} />
+        <Button theme="primary" label="Use this photo" onPress={() => handleSubmit()} />
       </View>
       
       

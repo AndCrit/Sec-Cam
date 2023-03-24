@@ -22,7 +22,7 @@ const NotificationBlock = (props) => {
           <Image source={{
                 width: "100%",
                 height: "100%",
-                uri : 'https://upload.wikimedia.org/wikipedia/commons/thumb/2/2c/Default_pfp.svg/1200px-Default_pfp.svg.png'}}>
+                uri : props.imageurl}}>
           </Image>
         </View>
         <View style={styles.Text_Container}>

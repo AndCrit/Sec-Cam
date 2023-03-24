@@ -1,8 +1,8 @@
 import {StyleSheet, Text, TextInput, View, Image, TouchableOpacity, FlatList, ScrollView, SafeAreaView, StatusBar} from 'react-native'
-import React, { Component, useEffect } from 'react'
+import React, { Component, useState, useEffect } from 'react'
 import NotificationBlock from '../components/NotificationBlock';
 import { getNotifs } from './api';
-
+import {firebase} from '../backend/config'
 export default function NotificationPage(props) {
     
     const[notifs, setNotifList] = React.useState 
@@ -15,6 +15,7 @@ export default function NotificationPage(props) {
       {"key":6, "notifName": "Bob5", "notifDate": "Tuesday, July 29th", "notifTime":"5:30pm", "EventDesc":"RemovePerson", "view": true},
         
     ]);
+    const [image, setImage] = React.useState("")
     
     const [displayData, setdisplayData] = React.useState([]);
     const [count, setCount] = React.useState(-1);
@@ -37,14 +38,48 @@ export default function NotificationPage(props) {
       console.log(displayData);
     }
       
-    async function loadData() {
+
+    async function loadJsons(){
+      //Get JSON
+      console.log("Ello listaz")
+      let fileURL = "";
+      let fileRef = firebase.storage().ref().child('StationE.json')
+      fileRef
+        .getDownloadURL()
+        .then((url) => {
+          console.log(url);
+          const result = fetch(url).then(response => response.json())
+          .then(data => console.log(data));
+        })
+        .catch((e) => console.log('deeeee => ', e));
+
+      
+    }
+    loadJsons();
+    async function loadImage(profilename) {
+      console.log("Ello listaz")
+      let fileURL = "";
+      let fileRef = firebase.storage().ref().child('testImage.jpg')
+      fileRef
+        .getDownloadURL()
+        .then((url) => {
+          console.log(url);
+          setImage(url)
+        })
+        .catch((e) => console.log('deeeee => ', e));
+      
+
       //setNotifList(await getNotifs)
+      console.log("image")
+      console.log(image)
       if(count<0){
         setCount(0)
         setdisplayData(notifs);
       } 
     }
-    loadData();
+    //loadImage();
+
+
     function onPressUploadPhoto(){
       props.navigatePage(2);
     }
@@ -68,7 +103,7 @@ export default function NotificationPage(props) {
         displayData.map((notif) =>{
          
             return(
-              <NotificationBlock {...notif} id={notif.key} UploadPhoto = {onPressUploadPhoto} DismissAlert = {onPressDismissAlert} />
+              <NotificationBlock {...notif} id={notif.key} imageurl={image} UploadPhoto = {onPressUploadPhoto} DismissAlert = {onPressDismissAlert} />
             );
          
         })}
