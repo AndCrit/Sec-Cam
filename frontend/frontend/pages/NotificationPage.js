@@ -1,32 +1,33 @@
 import {StyleSheet, Text, TextInput, View, Image, TouchableOpacity, FlatList, ScrollView, SafeAreaView, StatusBar} from 'react-native'
-import React, { Component, useState, useEffect } from 'react'
+import React, { Component, useState, useEffect, useRef } from 'react'
 import NotificationBlock from '../components/NotificationBlock';
 import { getNotifs } from './api';
 import {firebase} from '../backend/config'
 export default function NotificationPage(props) {
-    
+    const[notifupdate, setNotifUpdate] = React.useState(false);
+    const[image, setImage] = React.useState("");
     const[notifs, setNotifList] = React.useState 
     ([ 
-      {"key":1, "notifName": "Bob", "notifDate": "Tuesday, July 29th", "notifTime":"5:30pm", "EventDesc":"RemovePerson",  "view": true},
-      {"key":2, "notifName": "Bill", "notifDate": "Friday, Aug 12th", "notifTime":"7:30pm", "EventDesc":"RemovePerson","view": true},
-      {"key":3, "notifName": "Bob2", "notifDate": "Tuesday, July 29th", "notifTime":"5:30pm","EventDesc":"RemovePerson", "view": true},
-      {"key":4, "notifName": "Bob4", "notifDate": "Tuesday, July 29th", "notifTime":"5:30pm", "EventDesc":"RemovePerson", "view": true},
-      {"key":5, "notifName": "Bill2", "notifDate": "Friday, Aug 12th", "notifTime":"7:30pm", "EventDesc":"RemovePerson","view": true },
-      {"key":6, "notifName": "Bob5", "notifDate": "Tuesday, July 29th", "notifTime":"5:30pm", "EventDesc":"RemovePerson", "view": true},
+      {"key":1, "notifName": "Bob", "notifDate": "Tuesday, July 29th", "notifTime":"5:30pm", "EventDesc":"RemovePerson","image": "Bob.jpg"},
+      {"key":2, "notifName": "Bill", "notifDate": "Friday, Aug 12th", "notifTime":"7:30pm", "EventDesc":"RemovePerson","image": "Bill.jpg"},
+      {"key":3, "notifName": "Bob2", "notifDate": "Tuesday, July 29th", "notifTime":"5:30pm","EventDesc":"RemovePerson", "image": "Bob2.jpg"},
+      {"key":4, "notifName": "Bob4", "notifDate": "Tuesday, July 29th", "notifTime":"5:30pm", "EventDesc":"RemovePerson", "image": "Bob4.jpg"},
+      {"key":5, "notifName": "Bill2", "notifDate": "Friday, Aug 12th", "notifTime":"7:30pm", "EventDesc":"RemovePerson","image": "Bill2.jpg"},
+      {"key":6, "notifName": "Bob5", "notifDate": "Tuesday, July 29th", "notifTime":"5:30pm", "EventDesc":"RemovePerson", "image": "Bob5.jpg"},
         
     ]);
-    const [image, setImage] = React.useState("")
     
     const [displayData, setdisplayData] = React.useState([]);
     const [count, setCount] = React.useState(-1);
-    const[query, onChangeQuery] = React.useState('Empty');
+    const[query, onChangeQuery] = React.useState('');
     
     //This function deals the damage
     function onFilter(filterText) {
       console.log("Query: "+query);
       if(query == ""){
-        setdisplayData(notifs);
-        onChangeQuery('empty');
+        setCount(-1);
+        loadJsons();
+        
       }
       var tempObj = notifs; //change to profiles to test
       tempObj = notifs.filter(function (obj) {
@@ -41,43 +42,46 @@ export default function NotificationPage(props) {
 
     async function loadJsons(){
       //Get JSON
-      console.log("Ello listaz")
-      let fileURL = "";
-      let fileRef = firebase.storage().ref().child('StationE.json')
+      let fileRef = firebase.storage().ref().child('StationD1.json')
+      const notifData = []
+      if(count<0){
       fileRef
         .getDownloadURL()
         .then((url) => {
           console.log(url);
           const result = fetch(url).then(response => response.json())
-          .then(data => console.log(data));
+          .then(data => {
+            console.log(data)
+              setCount(0)
+              setdisplayData(data);
+              console.log("Updated Data")
+          });
         })
         .catch((e) => console.log('deeeee => ', e));
-
+    }
       
     }
     loadJsons();
-    async function loadImage(profilename) {
+    
+    async function loadImage(image) {
       console.log("Ello listaz")
-      let fileURL = "";
-      let fileRef = firebase.storage().ref().child('testImage.jpg')
-      fileRef
+      
+      let fileRef = firebase.storage().ref().child(image)
+      let imageURL = ''
+      if(count<0){
+      await fileRef
         .getDownloadURL()
         .then((url) => {
           console.log(url);
-          setImage(url)
+          setImage(url);
         })
         .catch((e) => console.log('deeeee => ', e));
-      
+      }
 
       //setNotifList(await getNotifs)
-      console.log("image")
-      console.log(image)
-      if(count<0){
-        setCount(0)
-        setdisplayData(notifs);
-      } 
+      return imageURL
     }
-    //loadImage();
+   
 
 
     function onPressUploadPhoto(){
@@ -92,18 +96,22 @@ export default function NotificationPage(props) {
       //Call Axios Functions
     }
     
+  
+   
 
     function NotifList(){
       //TODO FIX SCROLLING
+    
       return (
         <SafeAreaView>
         <ScrollView style={styles.scroll_list} vertical={true}>
         {
         
         displayData.map((notif) =>{
-         
+            
+            
             return(
-              <NotificationBlock {...notif} id={notif.key} imageurl={image} UploadPhoto = {onPressUploadPhoto} DismissAlert = {onPressDismissAlert} />
+              <NotificationBlock {...notif} id={notif.key} imageurl={notif.imageURI} UploadPhoto = {onPressUploadPhoto} DismissAlert = {onPressDismissAlert} />
             );
          
         })}
@@ -125,6 +133,7 @@ export default function NotificationPage(props) {
             <Image style={styles.icon} source={require('../assets/Search.png')}/>
           </TouchableOpacity>
         </View>
+       
        
         <NotifList/>
         

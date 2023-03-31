@@ -1,4 +1,4 @@
-import { StyleSheet, Text, View, Image, TouchableOpacity } from 'react-native'
+import { StyleSheet,  KeyboardAvoidingView, Text, View, Image, TouchableOpacity } from 'react-native'
 import React from 'react'
 
 const ProfileBlock = (props) => {
@@ -16,9 +16,10 @@ const ProfileBlock = (props) => {
     <View style ={styles.EventBox}>
        <View style={styles.Photo}>
           <Image source={{
-                width: "100%",
-                height: "100%",
-                uri : 'https://upload.wikimedia.org/wikipedia/commons/thumb/2/2c/Default_pfp.svg/1200px-Default_pfp.svg.png'}}>
+                width: "90%",
+                height: "90%",
+                uri : props.imageURI}} 
+                style={styles.Photo_Effects}>
           </Image>
         </View>
       <View style={[styles.Profile_Text]}>
@@ -31,7 +32,7 @@ const ProfileBlock = (props) => {
         
         <View style={styles.Profile_Buttons_Top}>
           <TouchableOpacity onPress={null}>
-            <Image style={styles.IconContainer} source={require('../assets/Edit.png')}/>
+            
           </TouchableOpacity>
         </View>
         <View style={styles.Profile_Buttons_Top}>
@@ -72,8 +73,14 @@ const styles = StyleSheet.create({
     
     Photo: {
       flexDirection: "column",
-      height: '90%',
+      flexDirection: 'row',
+      justifyContent: 'center',
+      height: '80%',
       width: "33%",
+      
+    },
+    Photo_Effects: {
+      borderRadius: 25,
     },
 
     Profile_Text: {
@@ -87,6 +94,7 @@ const styles = StyleSheet.create({
       alignItems: 'center',
       justifyContent: 'flex-start',
       alignItems: 'center',
+      tintColor: 'grey',
       height: '50%',
     },
 

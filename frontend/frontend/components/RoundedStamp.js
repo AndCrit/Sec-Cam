@@ -1,15 +1,15 @@
-import { StyleSheet, Text, View, } from 'react-native'
+import { StyleSheet, Text, View, Image } from 'react-native'
 import React from 'react'
 
 const RoundedStamp = (props) => {
   
-
   function SelectPicture(icon){
     if(icon === 'sun'){
-      console.log("check")
-      return <Image style={styles.Image1} source={require('../assets/Sun.png')}/>;
+      //console.log('../assets/Sun.png');
+     return '../assets/Sun.png';
     } else if (icon === 'on'){
-      return <Image style={styles.Image1} source={require('../assets/Checkmark (Circle).png')}/>;
+      //console.log('../assets/Checkmark (Circle).png');
+      return '../assets/Checkmark_Circle.png';
     }
 
 
@@ -19,11 +19,15 @@ const RoundedStamp = (props) => {
     
     <View style={styles.rounded_container}>
       <View style={styles.rounded_container_content}>
-        <Text style= {[styles.text, styles.bold_text]}>{props.descriptor}</Text>
-        {/** For Image */}
-       
-        <SelectPicture icon={props.imageIcon}/>
-        
+        <View style = {styles.text_container}>
+        <Text style= {[styles.text, styles.bold_text]}>
+          {props.descriptor}
+        </Text>
+        </View>
+        <View style= {styles.img_container}>
+          
+          <Image style={styles.Image1} source={'../assets/CameraLogoIcon.png'}/>
+        </View>
       </View>
     </View>
   )
@@ -40,6 +44,14 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         justifyContent: 'center',
     },
+    text_container:{
+      width: "70%",
+    },
+    img_container:{
+      justifyContent: 'center',
+      alignItems: 'center',
+      width: "30%",
+    },
     text:{
         color:'white',
         fontSize: 14,
@@ -51,6 +63,7 @@ const styles = StyleSheet.create({
     rounded_container_content:{
       height: '90%',
       width: '75%',
+      flexDirection: 'row',
       alignItems: 'flex-start',
       backgroundColor: ''
     },

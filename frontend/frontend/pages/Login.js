@@ -21,22 +21,22 @@ function Login(props) {
           
           <TextInput
           onChangeLogin={onChangeUsername}
-          placeholder="Username"
+          placeholder="Welcome to our security camera application"
           value={text}
           style={styles.TextContainer}
           />
           <TextInput
             onChangeLogin={onChangePin}
             value={pin}
-            placeholder="PIN"
+            placeholder="W23NMK01"
             keyboardType="numeric"
             style={styles.TextContainer}
           />
           <TouchableOpacity style={styles.ButtonContainer} onPress={() => onPressLogin()}>
-              <Text> Sign in</Text>
+              <Text> Press Here</Text>
           </TouchableOpacity>
           <TouchableOpacity style={styles.ButtonContainer} onPress={() => onPressLogin()}>
-              <Text> Sign up</Text>
+              <Text> To Enter</Text>
           </TouchableOpacity>
           
       </View>

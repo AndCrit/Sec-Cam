@@ -13,9 +13,9 @@ let CameraRoundedStampValue = {descriptor:"Camera Status", imageIcon:'on'}
 
 const[TodaysEvents, setTodaysEvents] = React.useState 
     ([ 
-        {"key":1, "notifName": "Bob", "notifDate": "Tuesday, July 29th", "notifTime":"5:30pm", "EventDesc":"RemovePerson",  "view": true},
-        {"key":2, "notifName": "Bill", "notifDate": "Friday, Aug 12th", "notifTime":"7:30pm", "EventDesc":"SecAlert","view": true},
-        {"key":3, "notifName": "Bob2", "notifDate": "Tuesday, July 29th", "notifTime":"5:30pm","EventDesc":"RecogPerson", "view": true},
+        {"key":1, "notifName": "Bob", "notifDate": "Tuesday, July 29th", "notifTime":"5:30pm", "EventDesc":"RemovePerson", "image": "bob.image"},
+        {"key":2, "notifName": "Bill", "notifDate": "Friday, Aug 12th", "notifTime":"7:30pm", "EventDesc":"SecAlert"},
+        {"key":3, "notifName": "Bob2", "notifDate": "Tuesday, July 29th", "notifTime":"5:30pm","EventDesc":"RecogPerson"},
         
       ]);
 const[notifs, setNotifList] = React.useState([]);

@@ -12,32 +12,22 @@ export default function Upload() {
   const PlaceholderImage = require('../assets/Streetview.jpg');
   const [selectedImage, setSelectedImage] = React.useState(PlaceholderImage);
   const[ProfileName, onChangeProfileName] = React.useState('New Profile');
-  const[Gender, onChangeGender] = React.useState('Gender');
-  const [Age, onChangeAge] = React.useState('Age');
+  const[PhoneNum, onChangePhoneNum] = React.useState('PhoneNum');
+  const [AddInfo, onChangeAddInfo] = React.useState('AddInfo');
   const[Photo, onSetPhoto] = React.useState(PlaceholderImage);
   const [modalVisible, setModalVisible] = useState(false);
-
+  const [image, setImage] = React.useState('');
   async function handleSubmit() {
     console.log("test");
-    setUploading(true);
+    
 
-    let userRequest = {
-      
-      "name":ProfileName,
-      "gender": Gender,
-      "age": Age,
-      "photo": ProfileName + ".jpg",
-      "date" : new Date()
-    }
+    
     //console.log(userRequest);
     //await createUser(userRequest);
     //console.log("PRINTING");
     //console.log(selectedImage.uri);
     //uploadImage(selectedImage.uri,"newfile.jpeg");
-    const infoJSON = JSON.stringify(userRequest)
-    const infoblob = new Blob([infoJSON], {
-      type:'application/json'
-    })
+    
     
     const filename = "StationE"
     // Why are we using XMLHttpRequest? See:
@@ -56,20 +46,36 @@ export default function Upload() {
       xhr.send(null);
     });
 
+    
+    const imageREF = firebase
+      .storage()
+      .ref()
+      .child(ProfileName+".jpg");
+
+    const imagesnapshot = await imageREF.put(blob);
+    //let uri = loadImage(ProfileName+'.jpg');
+    let userRequest = {
+      "name":ProfileName,
+      "PhoneNumber": PhoneNum,
+      "AdditionalInfo": AddInfo,
+      "image": ProfileName + ".jpg",
+      "ProfileAddedDate" : new Date().toDateString(),
+      "imageURI":""
+    }
+    const infoJSON = JSON.stringify(userRequest)
+    const infoblob = new Blob([infoJSON], {
+      type:'application/json'
+    })
+
     const ref = firebase
       .storage()
       .ref()
       .child(filename+".json");
     const snapshot = await ref.put(infoblob);
-    const ref2 = firebase
-      .storage()
-      .ref()
-      .child(filename+".jpg");
-    const snapshot2 = await ref2.put(blob);
 
     // We're done with the blob, close and release it
     blob.close();
-
+    
     //return await snapshot.ref.getDownloadURL();
     /**
      * const response = await fetch(selectedImage)
@@ -91,7 +97,19 @@ export default function Upload() {
     setModalVisible(!modalVisible);
   }
 
-
+  async function loadImage(image) {
+    let fileRef = firebase.storage().ref().child(image)
+    let imageURI = ""
+    
+    await fileRef
+      .getDownloadURL()
+      .then((url) => {
+        console.log(url);
+        imageURI = url;
+      })
+      .catch((e) => console.log('e => ', e));
+    return imageURI
+  }
 
 
   const pickImageAsync = async () => {
@@ -129,18 +147,21 @@ export default function Upload() {
               <Text style={[styles.text, styles.bold_text]}>New Profile Form</Text>    
               <Image source={selectedImage} style={styles.imagesmall} />    
               <View style={styles.inputSections}>
-                <TextInput id = "user_profile_name"
+                <TextInput
                   mode="outlined"
+                  placeholder='Name'
                   style={styles.textinput}
                   onChangeText={text => onChangeProfileName(text)}/>
-                <TextInput id = "user_age"
+                <TextInput
                   mode="outlined"
+                  placeholder='PhoneNum'
                   style={styles.textinput}
-                  onChangeText={text => onChangeAge(text)}/>
-                <TextInput id = "user_gender"
+                  onChangeText={text => onChangePhoneNum(text)}/>
+                <TextInput 
                   mode="outlined"
+                  placeholder='Additional Info'
                   style={styles.textinput}
-                  onChangeText={text => onChangeGender(text)}/>
+                  onChangeText={text => onChangeAddInfo(text)}/>
               </View>
               <TouchableOpacity onPress={() => handleSubmit()} style={styles.SubmitButton}>
                   <Text style={styles.text}> Submit</Text>
