@@ -1,7 +1,6 @@
 import {StyleSheet, Text, TextInput, View, Image, TouchableOpacity, FlatList, ScrollView, SafeAreaView, StatusBar} from 'react-native'
 import React, { Component, useState, useEffect, useRef } from 'react'
 import NotificationBlock from '../components/NotificationBlock';
-import { getNotifs } from './api';
 import {firebase} from '../backend/config'
 export default function NotificationPage(props) {
     const[notifupdate, setNotifUpdate] = React.useState(false);
