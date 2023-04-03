@@ -55,7 +55,7 @@ export default function Upload() {
     const imagesnapshot = await imageREF.put(blob);
     //let uri = loadImage(ProfileName+'.jpg');
     let userRequest = {
-      "name":ProfileName,
+      "ProfileName":ProfileName,
       "PhoneNumber": PhoneNum,
       "AdditionalInfo": AddInfo,
       "image": ProfileName + ".jpg",

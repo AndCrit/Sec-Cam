@@ -2,11 +2,6 @@ import { StyleSheet,  KeyboardAvoidingView, Text, View, Image, TouchableOpacity 
 import React from 'react'
 
 const ProfileBlock = (props) => {
-
-  let Name = props.ProfileName;
-  let AddedDate = props.ProfileAddedDate;
-  let PhoneNumber = props.PhoneNumber;
-  let AdditionalInfo = props.AdditionalInfo;
   function onRemoveButtonPress(id){
     console.log(id);
     props.RemoveProfile(id)
@@ -23,10 +18,10 @@ const ProfileBlock = (props) => {
           </Image>
         </View>
       <View style={[styles.Profile_Text]}>
-          <Text style={[styles.text, styles.bold_text]}> {Name} </Text>
-          <Text style={styles.text}> Added: {AddedDate} </Text>
-          <Text style={styles.text}> Phone #: {PhoneNumber} </Text>
-          <Text style={styles.text}> Addtional Info: {AdditionalInfo}</Text>
+          <Text style={[styles.text, styles.bold_text]}> {props.ProfileName} </Text>
+          <Text style={styles.text}> Added: {props.ProfileAddedDate} </Text>
+          <Text style={styles.text}> Phone #: {props.PhoneNumber} </Text>
+          <Text style={styles.text}> Addtional Info: {props.AdditionalInfo}</Text>
       </View>
       <View style={styles.Profile_Buttons}>
         
