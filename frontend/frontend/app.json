@@ -1,13 +1,13 @@
 {
   "expo": {
     "name": "frontend",
-    "slug": "frontend",
+    "slug": "sec-cam",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "",
     "userInterfaceStyle": "light",
     "splash": {
-      "image": "",
+      "image": "./assets/Unknown.png",
       "resizeMode": "contain",
       "backgroundColor": "#ffffff"
     },
@@ -18,16 +18,24 @@
       "**/*"
     ],
     "ios": {
-      "supportsTablet": true
+      "supportsTablet": true,
+      "bundleIdentifier": "com.andcrit.seccam"
     },
     "android": {
       "adaptiveIcon": {
         "foregroundImage": "",
         "backgroundColor": "#FFFFFF"
-      }
+      },
+      "package": "com.andcrit.seccam"
     },
     "web": {
       "favicon": ""
-    }
+    },
+    "extra": {
+      "eas": {
+        "projectId": "0b9c474c-3a38-495c-84f7-5416ea1ea070"
+      }
+    },
+    "owner": "andcrit"
   }
 }
