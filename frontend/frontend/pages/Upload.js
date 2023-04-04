@@ -14,6 +14,7 @@ export default function Upload() {
   const[ProfileName, onChangeProfileName] = React.useState('New Profile');
   const[PhoneNum, onChangePhoneNum] = React.useState('PhoneNum');
   const [AddInfo, onChangeAddInfo] = React.useState('AddInfo');
+  const [PictureID, onSetPictureID] = React.useState('0');
   const[Photo, onSetPhoto] = React.useState(PlaceholderImage);
   const [modalVisible, setModalVisible] = useState(false);
   const [image, setImage] = React.useState('');
@@ -50,7 +51,7 @@ export default function Upload() {
     const imageREF = firebase
       .storage()
       .ref()
-      .child(ProfileName+".jpg");
+      .child(ProfileName+PictureID+".jpg");
 
     const imagesnapshot = await imageREF.put(blob);
     //let uri = loadImage(ProfileName+'.jpg');
@@ -58,7 +59,7 @@ export default function Upload() {
       "ProfileName":ProfileName,
       "PhoneNumber": PhoneNum,
       "AdditionalInfo": AddInfo,
-      "image": ProfileName + ".jpg",
+      "image": ProfileName + PictureID + ".jpg",
       "ProfileAddedDate" : new Date().toDateString(),
       "imageURI":""
     }
@@ -162,6 +163,11 @@ export default function Upload() {
                   placeholder='Additional Info'
                   style={styles.textinput}
                   onChangeText={text => onChangeAddInfo(text)}/>
+                  <TextInput 
+                  mode="outlined"
+                  placeholder='Picture Id (1-10)'
+                  style={styles.textinput}
+                  onChangeText={text => onSetPictureID(text)}/>
               </View>
               <TouchableOpacity onPress={() => handleSubmit()} style={styles.SubmitButton}>
                   <Text style={styles.text}> Submit</Text>
@@ -250,11 +256,11 @@ const styles = StyleSheet.create({
    
   },
   inputSections:{
-    flex:1,
+    flexShrink:1,
     width: "90%",
   },
   SubmitButton:{
-    
+    flexShrink:1,
     marginTop:5,
     backgroundColor: 'black',
     width: '90%',

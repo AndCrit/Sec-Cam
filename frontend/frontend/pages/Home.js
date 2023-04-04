@@ -7,7 +7,7 @@ import {firebase} from '../backend/config'
 function Home(props) {
 var greeting;
 const today = new Date();
-console.log(today.toDateString());
+//console.log(today.toDateString());
 
 let TimeRoundedStampValue = {descriptor:"Currently      "+today.toLocaleTimeString(), imageIcon:'sun'}
 let CameraRoundedStampValue = {descriptor:"Camera Status", imageIcon:'on'}
@@ -69,7 +69,7 @@ loadJsons();
 
 
 function onPressDismissAlert(id){
-  console.log("id");
+  //console.log("id");
   const new_TodaysEvents = TodaysEvents.filter((TE) => TE.key !== id);
   setTodaysEvents(new_TodaysEvents)
   //Call Axios Functions
