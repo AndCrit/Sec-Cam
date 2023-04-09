@@ -18,19 +18,10 @@ export default function Upload() {
   const[Photo, onSetPhoto] = React.useState(PlaceholderImage);
   const [modalVisible, setModalVisible] = useState(false);
   const [image, setImage] = React.useState('');
-  async function handleSubmit() {
-    console.log("test");
-    
 
-    
-    //console.log(userRequest);
-    //await createUser(userRequest);
-    //console.log("PRINTING");
-    //console.log(selectedImage.uri);
-    //uploadImage(selectedImage.uri,"newfile.jpeg");
-    
-    
-    const filename = "StationE"
+  async function handleSubmit() {
+    console.log("Submitting");
+    const filename = "StationC"
     // Why are we using XMLHttpRequest? See:
     // https://github.com/expo/expo/issues/2402#issuecomment-443726662
     const blob = await new Promise((resolve, reject) => {
@@ -55,12 +46,20 @@ export default function Upload() {
 
     const imagesnapshot = await imageREF.put(blob);
     //let uri = loadImage(ProfileName+'.jpg');
+    let requestType = "";
+    if(PictureID> 1){
+      requestType = "UpdateUser"
+    } else {
+      requestType = "AddUser"
+    }
     let userRequest = {
       "ProfileName":ProfileName,
       "PhoneNumber": PhoneNum,
       "AdditionalInfo": AddInfo,
       "image": ProfileName + PictureID + ".jpg",
+      "PictureId": PictureID,
       "ProfileAddedDate" : new Date().toDateString(),
+      "type": requestType,
       "imageURI":""
     }
     const infoJSON = JSON.stringify(userRequest)
@@ -76,42 +75,9 @@ export default function Upload() {
 
     // We're done with the blob, close and release it
     blob.close();
-    
-    //return await snapshot.ref.getDownloadURL();
-    /**
-     * const response = await fetch(selectedImage)
-    const blob = await response.blob();
-    const filename = image.uri.substring(image.uri.lastIndexOf('/')+1);
-    var ref = firebase.storage().ref.child(filename).put(blob);
-    console.log("attempting")
-    try {
-      await ref;  
-    } catch (e) {
-      console.log("ERRRROOOOOOOOOOOOOOORRRRR")
-      console.log(e);
-    }
-    console.log("Uploaded");
-    setUploading(false);
-    setSelectedImage(null);
-    
-     */
+    //Close Modal
     setModalVisible(!modalVisible);
   }
-
-  async function loadImage(image) {
-    let fileRef = firebase.storage().ref().child(image)
-    let imageURI = ""
-    
-    await fileRef
-      .getDownloadURL()
-      .then((url) => {
-        console.log(url);
-        imageURI = url;
-      })
-      .catch((e) => console.log('e => ', e));
-    return imageURI
-  }
-
 
   const pickImageAsync = async () => {
     let result = await ImagePicker.launchImageLibraryAsync({
@@ -121,13 +87,11 @@ export default function Upload() {
       quality: 1,
     });
 
-
-  
-   console.log(result)
-   console.log(result.assets[0].uri)
+   //console.log(result)
+   //console.log(result.assets[0].uri)
    const source = {uri:result.assets[0].uri};
    setSelectedImage(source);
-   console.log("Selected Image: "+selectedImage)
+   //console.log("Selected Image: "+selectedImage)
    setModalVisible(true);
    
   };
@@ -141,7 +105,6 @@ export default function Upload() {
         style={styles.modalContainer}
         onRequestClose={() => {
           setModalVisible(!modalVisible);
-        
         }}>
           <View style={styles.centeredView}>
             <View style={styles.modalView}>
@@ -172,7 +135,6 @@ export default function Upload() {
               <TouchableOpacity onPress={() => handleSubmit()} style={styles.SubmitButton}>
                   <Text style={styles.text}> Submit</Text>
               </TouchableOpacity>
-              
             </View>
           </View>
       </Modal>
@@ -190,8 +152,6 @@ export default function Upload() {
         <Button theme="primary" label="Choose a photo" onPress={pickImageAsync} />
         <Button theme="primary" label="Use this photo" onPress={() => handleSubmit()} />
       </View>
-      
-      
     </View>
   );
 }

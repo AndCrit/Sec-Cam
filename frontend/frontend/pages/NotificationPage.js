@@ -3,24 +3,12 @@ import React, { Component, useState, useEffect, useRef } from 'react'
 import NotificationBlock from '../components/NotificationBlock';
 import {firebase} from '../backend/config'
 export default function NotificationPage(props) {
-    const[notifupdate, setNotifUpdate] = React.useState(false);
-    const[image, setImage] = React.useState("");
-    const[notifs, setNotifList] = React.useState 
-    ([ 
-      {"key":1, "notifName": "Bob", "notifDate": "Tuesday, July 29th", "notifTime":"5:30pm", "EventDesc":"RemovePerson","image": "Bob.jpg"},
-      {"key":2, "notifName": "Bill", "notifDate": "Friday, Aug 12th", "notifTime":"7:30pm", "EventDesc":"RemovePerson","image": "Bill.jpg"},
-      {"key":3, "notifName": "Bob2", "notifDate": "Tuesday, July 29th", "notifTime":"5:30pm","EventDesc":"RemovePerson", "image": "Bob2.jpg"},
-      {"key":4, "notifName": "Bob4", "notifDate": "Tuesday, July 29th", "notifTime":"5:30pm", "EventDesc":"RemovePerson", "image": "Bob4.jpg"},
-      {"key":5, "notifName": "Bill2", "notifDate": "Friday, Aug 12th", "notifTime":"7:30pm", "EventDesc":"RemovePerson","image": "Bill2.jpg"},
-      {"key":6, "notifName": "Bob5", "notifDate": "Tuesday, July 29th", "notifTime":"5:30pm", "EventDesc":"RemovePerson", "image": "Bob5.jpg"},
-        
-    ]);
-    
     const [displayData, setdisplayData] = React.useState([]);
     const [count, setCount] = React.useState(-1);
     const[query, onChangeQuery] = React.useState('');
     
     //This function deals the damage
+    //Filters the results based on query given in search bar
     function onFilter(filterText) {
       console.log("Query: "+query);
       if(query == ""){
@@ -28,8 +16,8 @@ export default function NotificationPage(props) {
         loadJsons();
         
       }
-      var tempObj = notifs; //change to profiles to test
-      tempObj = notifs.filter(function (obj) {
+      var tempObj = displayData; //change to profiles to test
+      tempObj = displayData.filter(function (obj) {
           return obj.notifName.toLowerCase().includes(filterText.toLowerCase())
       }).map(function (obj) {
           return obj;
@@ -38,11 +26,10 @@ export default function NotificationPage(props) {
       console.log(displayData);
     }
       
-
+    //Load Jsons from Server
     async function loadJsons(){
       //Get JSON
       let fileRef = firebase.storage().ref().child('StationD1.json')
-      const notifData = []
       if(count<0){
       fileRef
         .getDownloadURL()
@@ -62,37 +49,37 @@ export default function NotificationPage(props) {
     }
     loadJsons();
     
-    async function loadImage(image) {
-      console.log("Ello listaz")
-      
-      let fileRef = firebase.storage().ref().child(image)
-      let imageURL = ''
-      if(count<0){
-      await fileRef
-        .getDownloadURL()
-        .then((url) => {
-          console.log(url);
-          setImage(url);
-        })
-        .catch((e) => console.log('deeeee => ', e));
-      }
-
-      //setNotifList(await getNotifs)
-      return imageURL
+    async function dismissAlert(id, notif){
+      let userRequest = {... notif, "type":"remNotif"};
+      const filename = "StationC"
+      const infoJSON = JSON.stringify(userRequest)
+      const infoblob = new Blob([infoJSON], {
+        type:'application/json'
+      })
+  
+      const ref = firebase
+        .storage()
+        .ref()
+        .child(filename+".json");
+      const snapshot = await ref.put(infoblob);
+  
     }
    
-
-
     function onPressUploadPhoto(){
       props.navigatePage(2);
     }
 
   
     function onPressDismissAlert(id){
+      //Filter all notifs without removed one
       const new_notif = displayData.filter((notif) => notif.key !== id);
-      setdisplayData(new_notif)
+      //Filter removed notif
+      const removed_notif = displayData.filter((notif) => notif.key === id);
+      //Call Http Functions to tell server to delete alert
+      dismissAlert(id, removed_notif[0]);
+      //Update
+      setdisplayData(new_notif);
       console.log(new_notif);
-      //Call Axios Functions
     }
     
   
@@ -100,14 +87,12 @@ export default function NotificationPage(props) {
 
     function NotifList(){
       //TODO FIX SCROLLING
-    
       return (
         <SafeAreaView>
         <ScrollView style={styles.scroll_list} vertical={true}>
         {
         
         displayData.map((notif) =>{
-            
             
             return(
               <NotificationBlock {...notif} id={notif.key} imageurl={notif.imageURI} UploadPhoto = {onPressUploadPhoto} DismissAlert = {onPressDismissAlert} />
@@ -132,7 +117,6 @@ export default function NotificationPage(props) {
             <Image style={styles.icon} source={require('../assets/Search.png')}/>
           </TouchableOpacity>
         </View>
-       
        
         <NotifList/>
         

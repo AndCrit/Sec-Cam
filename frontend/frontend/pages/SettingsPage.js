@@ -3,17 +3,7 @@ import React from 'react'
 import SettingsBlock from '../components/SettingsBlock';
 
 export default function SettingsPage(props){
-  const value = {settingName: "Account Name", settingValue:"Braveler"}
-  const[Settings, onChangeSetting] = React.useState 
-    ([ 
-        {"key":1, "settingName": "Account Name", "settingValue": "Braveler"},
-        {"key":2, "settingName": "Camera", "settingValue": "Friday, Aug 12th"},
-        {"key":3, "settingName": "Age", "settingValue": "22"},
-        {"key":4, "settingName": "Camera Location", "settingValue": "Laconia"},
-        {"key":5, "settingName": "Camera Serial Number", "settingValue": "#4321212312"},
-        
-      ]);
-      
+
       function SettingsList(){
       
         return (
@@ -33,18 +23,26 @@ export default function SettingsPage(props){
   return (
     <>
       <View style={styles.overture_container}>
-        <View>
+        <View style= {{marginBottom:10,}}>
           <Text style={[styles.text, styles.big_text, styles.bold_text]}>Hello!</Text>
           <Text style = {styles.text}>
-              Want to edit your profile? Change your preferences? {"\n"}You can do it all here
+              Thanks for using our app {"\n"} Shout out to all of the team members below
           </Text>
         </View>
       </View>
       <View style={styles.overview_container}>
-        <SettingsList/>
-        
-
-        
+        <Text style={[styles.text, styles.big_text, styles.bold_text]}>
+          Ankit Misra
+        </Text>
+        <Text style={[styles.text, styles.big_text, styles.bold_text]}>
+          Vincent To
+        </Text>
+        <Text style={[styles.text, styles.big_text, styles.bold_text]}>
+          Jordan Lavallee
+        </Text>
+        <Text style={[styles.text, styles.big_text, styles.bold_text]}>
+          Imran Warfa
+        </Text>
         {/** TODO: Figure out some mapping for the settings */}
       </View>
     </>
@@ -73,6 +71,7 @@ const styles = StyleSheet.create({
     
   },
   text:{
+    margin:20,
     color:'white',
     fontSize: 16,
     fontWeight: "500",

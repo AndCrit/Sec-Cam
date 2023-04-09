@@ -9,14 +9,14 @@ const ProfileBlock = (props) => {
 
   return (
     <View style ={styles.EventBox}>
-       <View style={styles.Photo}>
-          <Image source={{
+      <View style={styles.Photo}>
+        <Image source={{
                 width: "90%",
                 height: "90%",
                 uri : props.imageURI}} 
                 style={styles.Photo_Effects}>
-          </Image>
-        </View>
+        </Image>
+      </View>
       <View style={[styles.Profile_Text]}>
           <Text style={[styles.text, styles.bold_text]}> {props.ProfileName} </Text>
           <Text style={styles.text}> Added: {props.ProfileAddedDate} </Text>
@@ -24,10 +24,8 @@ const ProfileBlock = (props) => {
           <Text style={styles.text}> Addtional Info: {props.AdditionalInfo}</Text>
       </View>
       <View style={styles.Profile_Buttons}>
-        
         <View style={styles.Profile_Buttons_Top}>
           <TouchableOpacity onPress={null}>
-            
           </TouchableOpacity>
         </View>
         <View style={styles.Profile_Buttons_Top}>

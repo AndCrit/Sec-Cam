@@ -6,21 +6,8 @@ import {firebase} from '../backend/config'
 export default function SavedDatabase(props) {
 
     const[query, onChangeQuery] = React.useState('');
-
-    
-    const [userList, setUserList] = React.useState([ 
-      {"key":1, "ProfileName": "Bob", "ProfileAddedDate": "Tuesday, July 29th", "AdditionalInfo":"Likes Peanuts", "PhoneNumber": "416-123-1111", 
-      "image":"Bob.jpg"},
-      {"key":2, "ProfileName": "Bill", "ProfileAddedDate": "Friday, Aug 12th", "AdditionalInfo":"Eats Fish", "PhoneNumber": "416-123-1111", "image":"Bob.jpg"},
-      {"key":3, "ProfileName": "Bob2", "ProfileAddedDate": "Tuesday, July 29th", "AdditionalInfo":"Stinky toes", "PhoneNumber": "416-123-1111", "image":"Bob.jpg"},
-      {"key":4, "ProfileName": "Bo", "ProfileAddedDate": "Tuesday, July 29th", "AdditionalInfo":"Harry Potter Fan", "PhoneNumber": "416-123-1111", "image":"Bob.jpg"},
-      {"key":5, "ProfileName": "Bin", "ProfileAddedDate": "Friday, Aug 12th", "AdditionalInfo":"Weeb", "PhoneNumber": "416-123-1111", "image":"Bin.jpg"},
-      {"key":6, "ProfileName": "Burp", "ProfileAddedDate": "Tuesday, July 29th", "AdditionalInfo":"Confused", "PhoneNumber": "416-123-1111", "image":"Burp.jpg"},
-      
-  ]);
     const [displayData, setdisplayData] = React.useState([]);
     const [count, setCount] = React.useState(-1);
-    const [image, setImage] = React.useState("");
 
     function onFilter(filterText) {
       console.log("Query: "+query);
@@ -29,8 +16,8 @@ export default function SavedDatabase(props) {
         loadJsons();
         
       }
-      var tempObj = userList; //change to profiles to test
-      tempObj = userList.filter(function (obj) {
+      var tempObj = displayData; //change to profiles to test
+      tempObj = displayData.filter(function (obj) {
           return obj.ProfileName.toLowerCase().includes(filterText.toLowerCase())
       }).map(function (obj) {
           return obj;
@@ -43,7 +30,6 @@ export default function SavedDatabase(props) {
   async function loadJsons(){
     //Get JSON
     console.log("User List")
-    let fileURL = "";
     let fileRef = firebase.storage().ref().child('StationD2.json')
     if(count<0){
     await fileRef
@@ -80,26 +66,42 @@ export default function SavedDatabase(props) {
       })
       .catch((e) => console.log('deeeee => ', e));
     
-  
-    //setNotifList(await getNotifs)
+
     console.log("image")
   }
 
-    function onPressRemoveProfile(id){
-      const new_profiles = displayData.filter((profile) => profile.key !== id);
-      setdisplayData(new_profiles)
-      console.log(new_profiles);
-      //Call Axios Functions
-    }
 
-    function ProfileList(){
+  async function RemoveUser(profile){
+    let userRequest = {... profile, "type":"remUser"};
+    const filename = "StationC"
+    const infoJSON = JSON.stringify(userRequest)
+    const infoblob = new Blob([infoJSON], {
+      type:'application/json'
+    })
+
+    const ref = firebase
+      .storage()
+      .ref()
+      .child(filename+".json");
+    const snapshot = await ref.put(infoblob);
+
+  }
+
+  function onPressRemoveProfile(id){
+    const new_profiles = displayData.filter((profile) => profile.key !== id);
+    const removed_profile = displayData.filter((profile) => profile.key === id);
+    //Call Axios Functions
+    RemoveUser(removed_profile[0])
+    setdisplayData(new_profiles)
+    //console.log(new_profiles);
+  }
+
+  function ProfileList(){
      
       return (
         <SafeAreaView>
         <ScrollView style={styles.scroll_list} vertical={true}>
         {displayData.map((profile) =>{
-          //loadImage(profile.image)
-          
           return(
             <ProfileBlock {...profile} id={profile.key} image={profile.imageURI} RemoveProfile = {onPressRemoveProfile} />
           );

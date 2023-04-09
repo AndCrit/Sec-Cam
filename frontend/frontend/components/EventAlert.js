@@ -39,7 +39,7 @@ const EventAlert = (props) => {
           <Image source={{
                 width: 90,
                 height: 90,
-                uri : 'https://upload.wikimedia.org/wikipedia/commons/thumb/2/2c/Default_pfp.svg/1200px-Default_pfp.svg.png'}}>
+                uri : props.imageURI}} >
           </Image>
         </View>
       <View style={styles.Profile_Text}>
