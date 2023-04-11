@@ -2,9 +2,9 @@ import { StyleSheet,  KeyboardAvoidingView, Text, View, Image, TouchableOpacity 
 import React from 'react'
 
 const ProfileBlock = (props) => {
-  function onRemoveButtonPress(id){
+  function onRemoveButtonPress(id, action){
     console.log(id);
-    props.RemoveProfile(id)
+    props.RemoveProfile(id, action)
   }
 
   return (
@@ -25,11 +25,12 @@ const ProfileBlock = (props) => {
       </View>
       <View style={styles.Profile_Buttons}>
         <View style={styles.Profile_Buttons_Top}>
-          <TouchableOpacity onPress={null}>
+          <TouchableOpacity onPress={() => onRemoveButtonPress(props.id, false)}>
+          <Image style={styles.IconContainer} source={require('../assets/Checkmark.png')}/>
           </TouchableOpacity>
         </View>
         <View style={styles.Profile_Buttons_Top}>
-          <TouchableOpacity onPress={() => onRemoveButtonPress(props.id)}>
+          <TouchableOpacity onPress={() => onRemoveButtonPress(props.id, true)}>
             <Image style={styles.IconContainer} source={require('../assets/Bin.png')}/>
           </TouchableOpacity>
         </View>

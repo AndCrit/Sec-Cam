@@ -18,6 +18,9 @@ const EventAlert = (props) => {
   function onDismissButtonPress(id){
     props.DismissAlert(id)
   }
+  function onPressNotifButton(){
+    props.NotifPage()
+  }
 
   function DetermineEvent(){
     
@@ -25,44 +28,30 @@ const EventAlert = (props) => {
     Eventinfo.absTime = props.notifTime;   
     return <EventDescription {...Eventinfo}/>
   }
-  function onPressCheck(){
-    let Check = true;
-  }
-  function onPressMenu(){
-    let Menu = true;
-  }
-  let userHistory = props.history;
 
   return (
-    <View style ={styles.EventBox}>
-       <View style={styles.Photo}>
-          <Image source={{
-                width: 90,
-                height: 90,
-                uri : props.imageURI}} >
-          </Image>
+    <TouchableOpacity onPress={() => onPressNotifButton()}>
+      <View style ={styles.EventBox}>
+        <View style={styles.Photo}>
+            <Image source={{
+                  width: 90,
+                  height: 90,
+                  uri : props.imageURI}} >
+            </Image>
+          </View>
+        <View style={styles.Profile_Text}>
+            <DetermineEvent/>
         </View>
-      <View style={styles.Profile_Text}>
-          <DetermineEvent/>
+        <View style={styles.Profile_Buttons}>
+          
+          <View style={styles.Profile_Buttons_Top}>
+            <TouchableOpacity onPress={() => onDismissButtonPress(props.id)}>
+              <Image style={styles.IconContainer} source={require('../assets/Bin.png')}/>
+            </TouchableOpacity>
+          </View>
+        </View>
       </View>
-      <View style={styles.Profile_Buttons}>
-        
-        <View style={styles.Profile_Buttons_Top}>
-          <TouchableOpacity onPress={() => onDismissButtonPress(props.id)}>
-            <Image style={styles.IconContainer} source={require('../assets/Checkmark.png')}/>
-          </TouchableOpacity>
-        </View>
-        <View style={styles.Profile_Buttons_Bottom}>
-          <TouchableOpacity onPress={null}>
-            <Image style={styles.Image1} source={require('../assets/3_Dot_Menu_Icon.png')}/>
-          </TouchableOpacity>
-          <TouchableOpacity onPress={null}>
-            <Image style={styles.Image1} source={require('../assets/Bin.png')}/>
-          </TouchableOpacity>
-        </View>
-
-      </View>
-    </View>
+    </TouchableOpacity>
   )
 }
 
@@ -108,9 +97,9 @@ const styles = StyleSheet.create({
 
     Profile_Buttons_Top:{
       alignItems: 'center',
-      justifyContent: 'flex-start',
+      justifyContent: 'flex-end',
       alignItems: 'center',
-      height: '50%',
+      height: '100%',
     },
 
     Profile_Buttons_Bottom: {

@@ -29,16 +29,16 @@ export default function SavedDatabase(props) {
   
   async function loadJsons(){
     //Get JSON
-    console.log("User List")
+    //console.log("User List")
     let fileRef = firebase.storage().ref().child('StationD2.json')
     if(count<0){
     await fileRef
       .getDownloadURL()
       .then((url) => {
-        console.log(url);
+        //console.log(url);
         const result = fetch(url).then(response => response.json())
         .then(data => {
-          console.log(data)
+          //console.log(data)
           
             setCount(0)
             setdisplayData(data);
@@ -83,17 +83,20 @@ export default function SavedDatabase(props) {
       .storage()
       .ref()
       .child(filename+".json");
+    console.log(userRequest)
     const snapshot = await ref.put(infoblob);
 
   }
 
-  function onPressRemoveProfile(id){
+  function onPressRemoveProfile(id, action){
     const new_profiles = displayData.filter((profile) => profile.key !== id);
     const removed_profile = displayData.filter((profile) => profile.key === id);
     //Call Axios Functions
-    RemoveUser(removed_profile[0])
+    if(action){
+      RemoveUser(removed_profile[0])
+    }
     setdisplayData(new_profiles)
-    //console.log(new_profiles);
+    //console.log(removed_profile[0]);
   }
 
   function ProfileList(){

@@ -21,14 +21,14 @@ function onPressDatabase (){
 
 //This function deals the damage
 function filterTodays() {
-  console.log("Filtering");
-  console.log(count);
+  //console.log("Filtering");
+ // console.log(count);
   
   const filteredList = notifs.filter(item => item.notifDate === today.toDateString());
   
-  console.log(notifs)
-  console.log("in here");
-  console.log(filteredList);
+  //console.log(notifs)
+  //console.log("in here");
+  //console.log(filteredList);
   setNotifs(filteredList);
   setCount(0);
   
@@ -41,10 +41,10 @@ async function loadJsons(){
     await fileRef
       .getDownloadURL()
       .then((url) => {
-        console.log(url);
+        //console.log(url);
         const result = fetch(url).then(response => response.json())
         .then(data => {
-          console.log(data)
+          //console.log(data)
             setLoad(0);
             setNotifs(data);
             console.log("Updated Data")
@@ -86,7 +86,7 @@ async function dismissAlert(id, notif){
     .ref()
     .child(filename+".json");
   const snapshot = await ref.put(infoblob);
-
+  console.log(userRequest)
 }
 
 function onPressDismissAlert(id){
@@ -98,7 +98,11 @@ function onPressDismissAlert(id){
   dismissAlert(id, removed_notif[0]);
   //Update
   setNotifs(new_notif);
-  console.log(new_notif);
+ // console.log(removed_notif);
+}
+
+function onPressNotifPage(){
+  props.navigatePage(4);
 }
 
 function TodaysEventList(){
@@ -108,7 +112,7 @@ function TodaysEventList(){
     {
     notifs.map((TE) =>{
         return(
-          <EventAlert {...TE} id={TE.key} DismissAlert = {onPressDismissAlert} />
+          <EventAlert {...TE} id={TE.key} DismissAlert = {onPressDismissAlert} NotifPage = {onPressNotifPage} />
         );
     })}
   </ScrollView>
