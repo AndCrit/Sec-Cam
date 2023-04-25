@@ -2,7 +2,7 @@ import { StyleSheet, Text, View, SafeAreaView, ScrollView } from 'react-native'
 import React from 'react'
 import SettingsBlock from '../components/SettingsBlock';
 
-export default function SettingsPage(props){
+export default function TeamPage(props){
 
       function SettingsList(){
       

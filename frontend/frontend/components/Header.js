@@ -13,13 +13,13 @@ function Header(props) {
   function onPressUpload (){
     props.navigatePage(2);
   }
-  function onPressUserSettings (){
+  function onPressTeam (){
     props.navigatePage(3);
   }
   function onPressAlerts (){
     props.navigatePage(4);
   }
-  
+
   const [modalVisible, setModalVisible] = useState(false);
 
   return (
@@ -46,9 +46,9 @@ function Header(props) {
             <Pressable style={[styles.button]}
               onPress={() => {
                 setModalVisible(!modalVisible);
-                onPressUpload();
+                onPressTeam();
                 }}>
-              <Text style={styles.textStyle}> Upload </Text>
+              <Text style={styles.textStyle}> Our Team </Text>
             </Pressable>
 
             <Pressable style={[styles.button]}
@@ -80,7 +80,7 @@ function Header(props) {
         <View style={styles.MiddleMenuBlock}/>
 
         <View style={styles.RightMenuContainer}>
-          <TouchableOpacity onPress={onPressUserSettings}>
+          <TouchableOpacity onPress={onPressTeam}>
             <Image style={styles.Image1} source={require('../assets/UserIcon.png')}/>
           </TouchableOpacity>
           <TouchableOpacity onPress={onPressAlerts}>
@@ -113,7 +113,6 @@ const styles = StyleSheet.create({
     RightMenuContainer: {
       flexDirection: 'row',
       justifyContent: 'space-around',
-      
       width: "30%",
       hover: '#6923dc',
     },

@@ -5,7 +5,7 @@ import Login from './Login'
 import LoadingPage from './LoadingPage'
 import Header from '../components/Header'
 import SavedDatabase from './SavedDatabase'
-import SettingsPage from './SettingsPage'
+import TeamPage from './TeamPage'
 import Upload from './Upload'
 import NotificationPage from './NotificationPage'
 
@@ -56,7 +56,7 @@ export default function Main() {
         return(
             <>
             <Header navigatePage={(num) => navigatePage(num)} />
-            <SettingsPage navigatePage={(num) => navigatePage(num)} />
+            <TeamPage navigatePage={(num) => navigatePage(num)} />
             </>
         )
     }

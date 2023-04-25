@@ -7,8 +7,8 @@ const NotificationBlock = (props) => {
   var notifDate = props.notifDate
   var notifTime = props.notifTime
 
-  function onPressUploadButton(){
-    props.UploadPhoto()
+  function onPressUploadButton(id){
+    props.UploadPhoto(id)
   }
 
   function onDismissButtonPress(id){
@@ -39,7 +39,7 @@ const NotificationBlock = (props) => {
           <Text style={[styles.text, styles.bold_text]}>  Sec Alert: {name} </Text>
 
           <View style={styles.button_layout}>
-            <TouchableOpacity onPress={onPressUploadButton}>
+            <TouchableOpacity onPress={() => onPressUploadButton(props.id)}>
               <View style={styles.notifButton}>
                 <Text style={[styles.text, styles.bold_text]}> Upload Photo</Text>
                 <Image style={styles.Image1} source={require('../assets/SaveIcon.png')}/>
