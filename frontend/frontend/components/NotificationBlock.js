@@ -8,6 +8,9 @@ const NotificationBlock = (props) => {
   var notifTime = props.notifTime
 
   function onPressUploadButton(id){
+    if(props.EventDesc != "SecAdd"){
+      return
+    }
     props.UploadPhoto(id)
   }
 
@@ -36,7 +39,7 @@ const NotificationBlock = (props) => {
             </View>
           </View>
         </View>
-          <Text style={[styles.text, styles.bold_text]}>  Sec Alert: {name} </Text>
+          <Text style={[styles.text, styles.bold_text]}>  {props.EventDesc}: {name} </Text>
 
           <View style={styles.button_layout}>
             <TouchableOpacity onPress={() => onPressUploadButton(props.id)}>

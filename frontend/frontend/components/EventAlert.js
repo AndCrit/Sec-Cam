@@ -7,9 +7,10 @@ const EventAlert = (props) => {
   
   let action = {
               SecAlert:"New Securtiy Alert \n" + "from camera ",
-              AddPerson:"New person added to the Image Database",
+              AddedUser:"New person added to the Image Database",
               RemovePerson:'A person has been removed from the Image Database',
-              RecogPerson:"A friendly person has been recognized"
+              RecogPerson:"A friendly person has been recognized",
+              SecAdd: "Click Upload to view more pictures about this person"
               };
 
   var name = props.notifName;
